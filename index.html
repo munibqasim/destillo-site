@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destillo - Custom AI Agents For Complex Medical Documents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-tan: #C8B89A;
+            --soft-tan: #E5D9C8;
+            --dark-text: #1a1a1a;
+            --light-bg: #F5F3EE;
+            --white: #FFFFFF;
+            --accent-text: #4a4a4a;
+            --success-green: #48BB78;
+        }
+
+        body {
+            font-family: 'Fraunces', serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--light-bg);
+            padding: 1.5rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .logo span {
+            color: var(--primary-tan);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-tan);
+        }
+
+        .cta-nav {
+            background-color: var(--dark-text);
+            color: var(--white) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-nav:hover {
+            background-color: var(--accent-text);
+            color: var(--white) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 5% 4rem;
+            background-color: var(--light-bg);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--dark-text);
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--accent-text);
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .hero-visual {
+            max-width: 1000px;
+            margin: 3rem auto;
+            background-color: var(--accent-text);
+            border-radius: 12px;
+            padding: 3rem;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .hero-stats {
+            font-size: 1rem;
+            color: var(--accent-text);
+            margin: 2rem 0;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--dark-text);
+            color: var(--white);
+            padding: 1rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-tan);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 5%;
+        }
+
+        .section-alt {
+            background-color: var(--light-bg);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--dark-text);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-text);
+        }
+
+        /* Problem/Solution Section */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .column {
+            padding: 2rem;
+        }
+
+        .column p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--accent-text);
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            background-color: var(--light-bg);
+            padding: 4rem 5%;
+        }
+
+        .stats-banner h2 {
+            color: var(--dark-text);
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--dark-text);
+        }
+
+        .stat-label {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+
+        .stat-description {
+            font-size: 1rem;
+            color: var(--accent-text);
+        }
+
+        /* How It Works */
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-color: var(--soft-tan);
+            color: var(--white);
+            border-radius: 50%;
+            line-height: 60px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-step p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--accent-text);
+        }
+
+        /* Document Types Grid */
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .document-card {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--light-bg);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .document-card:hover {
+            border-color: var(--primary-tan);
+            transform: translateY(-3px);
+        }
+
+        .document-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark-text);
+        }
+
+        .document-card p {
+            color: var(--accent-text);
+            line-height: 1.6;
+        }
+
+        /* Comparison Section */
+        .comparison-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .comparison-item {
+            padding: 2rem;
+            border-radius: 12px;
+            background-color: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .comparison-item.fail {
+            /* Removed background color and border */
+        }
+
+        .comparison-item.win {
+            /* Removed background color and border */
+        }
+
+        .comparison-item h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-item.fail h4::before {
+            content: "❌";
+        }
+
+        .comparison-item.win h4::before {
+            content: "✓";
+            font-weight: bold;
+            color: var(--success-green);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 3rem 2rem;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .team-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: var(--primary-tan);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .team-member h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member .role {
+            color: var(--primary-tan);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-member p {
+            color: var(--accent-text);
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        /* Contact Form */
+        .contact-section {
+            background-color: var(--light-bg);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--light-bg);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-tan);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--light-bg);
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            color: var(--accent-text);
+            margin: 0.5rem 0;
+        }
+
+        .contact-info a {
+            color: var(--primary-tan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-text);
+            color: var(--white);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        footer a {
+            color: var(--primary-tan);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+
+            .two-column,
+            .three-column,
+            .stats-grid,
+            .document-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            section {
+                padding: 3rem 5%;
+            }
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-text);
+            opacity: 0.7;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <img src="Destillo_Logo.png" alt="Destillo" style="height: 40px; width: auto;">
+        </div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#contact" class="cta-nav">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Custom AI Agents For Complex Medical Documents</h1>
+        <h2>We extract structured data from handwritten physician notes, degraded scans, and legacy files that off-the-shelf tools can't handle with 99% accuracy.</h2>
+        
+        <div class="hero-visual">
+            <!-- Placeholder for video/image - Replace this div with your actual visual -->
+            <p>[ Video/Image: Before/After Document Transformation ]</p>
+        </div>
+        
+        <p class="hero-stats">Proven on 10,000+ extractions across medical malpractice cases</p>
+        
+        <a href="#contact" class="cta-button">Book a Demo</a>
+        
+        <p class="disclaimer">Document examples shown are publicly available data for demonstration purposes</p>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section id="about">
+        <div class="two-column">
+            <div class="column">
+                <h3>Manual Review is Broken</h3>
+                <p>Law firms spend a considerable amount of time on tedious document review. A single medical malpractice case can involve over 10,000 pages of handwritten notes, messy scans, and legacy files.</p>
+                <p>This translates to weeks or months of paralegal and junior lawyer time, costing firms between $15,000 and $50,000 per case.</p>
+                <p>The result? Delayed cases, burned-out staff, and mounting expenses that eat into profitability.</p>
+            </div>
+            <div class="column">
+                <h3>Purpose-Built AI For Complex Documents</h3>
+                <p>We build custom AI agents specifically designed to tackle complex, real-world documents that off-the-shelf tools can't handle.</p>
+                <p>Our multi-agentic system processes handwritten physician notes, degraded scans, and legacy file formats with 99% accuracy while reducing review time by 75%.</p>
+                <p>Transform chaotic documents into clean, structured data.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proven Results Stats Banner -->
+    <section class="stats-banner">
+        <h2>Proven Results</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; font-size: 1.1rem; color: var(--accent-text);">Results from past customers with medical malpractice documents</p>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">10,000+</span>
+                <span class="stat-label">Total Extractions</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">99.1%</span>
+                <span class="stat-label">Accuracy Rate</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">75%</span>
+                <span class="stat-label">Time Savings</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="process" class="section-alt">
+        <h2>How It Works</h2>
+        <div class="three-column">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Document Processing</h3>
+                <p>Vision models and advanced parsing handle any document format: handwritten, scanned, or digital.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>AI Extraction</h3>
+                <p>Custom agents extract critical details with precision, understanding context and medical terminology.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Confidence Sorting</h3>
+                <p>Auto-approved with high confidence. Remaining items flagged for quick human review for low confidence extractions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Handle -->
+    <section>
+        <h2>Documents We Process</h2>
+        <div class="document-grid">
+            <div class="document-card">
+                <h4>Handwritten Medical Notes</h4>
+                <p>Physician notes, nursing records, clinical observations with inconsistent formatting and complex terminology.</p>
+            </div>
+            <div class="document-card">
+                <h4>Complex Legal Documents</h4>
+                <p>Medical malpractice files, personal injury records, and case documentation spanning thousands of pages.</p>
+            </div>
+            <div class="document-card">
+                <h4>Legacy Files</h4>
+                <p>Decades-old scans, faxed documents, degraded records that standard OCR tools cannot process.</p>
+            </div>
+            <div class="document-card">
+                <h4>Unstructured Medical Records</h4>
+                <p>Patient timelines, medication lists, diagnostic reports requiring context understanding.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Destillo Wins -->
+    <section class="section-alt">
+        <h2>Why Destillo Wins</h2>
+        <div class="comparison-grid">
+            <div class="comparison-item fail">
+                <h4>Generic OCR & AI Tools</h4>
+                <p>Fail completely on handwritten notes, degraded scans, and complex medical documents.</p>
+            </div>
+            <div class="comparison-item fail">
+                <h4>Manual Review Services</h4>
+                <p>Slow, expensive, and prone to human error. Can't scale efficiently and costs climb with every new case.</p>
+            </div>
+            <div class="comparison-item fail">
+                <h4>Off-the-Shelf Legal Tech</h4>
+                <p>Designed for generic use cases. Accuracy and efficacy reduces significantly for messy and complicated documents.</p>
+            </div>
+            <div class="comparison-item win">
+                <h4>Destillo Advantage</h4>
+                <p>Our sophisticated multi-agentic system uses specialized agents, each hyper-focused on specific extraction tasks. Trained on complex medical documents including handwritten physician notes, degraded scans, and legacy formats, achieving 99-99.5% accuracy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <h2>Meet Our Founding Team</h2>
+        <p style="text-align: center; max-width: 900px; margin: 0 auto 3rem; font-size: 1.1rem; color: var(--accent-text);">
+            Our co-founding team brings together deep expertise in artificial intelligence, legal technology, and business development, united by a shared vision to revolutionize document review.
+        </p>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-photo">MZ</div>
+                <h4>Munib Qasim Zia</h4>
+                <p class="role">Founder & CEO</p>
+                <p>Brings 6+ years of expertise in AI-powered document intelligence from the World Bank and venture-backed unicorn startups. With a proven track record developing advanced AI solutions at scale, he spearheads Destillo's mission to transform document review. He holds a Master's in Engineering from University of Waterloo. His leadership focuses on taking on complex challenges head-on, a mindset demonstrated by completing an Ironman triathlon in just 9 months.</p>
+            </div>
+            <div class="team-member">
+                <div class="team-photo">FS</div>
+                <h4>Filip Sierpinski</h4>
+                <p class="role">Chief Revenue Officer</p>
+                <p>Brings 7+ years of expertise driving growth in legal tech and B2B SaaS. Demonstrated success in market expansion, sales strategy, and building strong client relationships. Previously led sales at Medchart, a leading legal tech platform, contributing to significant market growth and Series A fundraise.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Security & Privacy Section -->
+    <section class="section-alt">
+        <h2>Data Security & Privacy</h2>
+        <div class="two-column">
+            <div class="column">
+                <h3>Compliance</h3>
+                <p><strong>GDPR compliant</strong> - European data protection standards</p>
+                <p><strong>HIPAA compliant</strong> - US healthcare data protection</p>
+                <p><strong>PIPEDA compliant</strong> - Canadian privacy standards</p>
+            </div>
+            <div class="column">
+                <h3>Data Protection</h3>
+                <p>Complete audit trails and processing logs for full transparency</p>
+                <p>Your data is never used to train publicly available AI models</p>
+                <p>Client data is never shared with third-party model providers</p>
+                <p>All data processed in secure, encrypted environments</p>
+            </div>
+        </div>
+        <div style="max-width: 900px; margin: 3rem auto 0; padding: 2rem; background-color: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <h3 style="margin-bottom: 1rem;">Your Data, Your Control</h3>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--accent-text);">
+                Data is processed solely for your specific extraction tasks. No client data is retained beyond project completion without explicit agreement. Full data deletion available upon request.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Ready to Transform Your Document Review?</h2>
+        <div class="contact-form">
+            <!-- IMPORTANT: Replace YOUR_FORM_ID with your actual Formspree form ID from formspree.io -->
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <input type="text" id="role" name="role">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Send Message</button>
+            </form>
+            <div class="contact-info">
+                <p>Or reach out directly:</p>
+                <p><a href="mailto:munibz@destillo.io">munibz@destillo.io</a></p>
+                <p><a href="https://destillo.io" target="_blank">destillo.io</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Destillo. All rights reserved.</p>
+        <p><a href="mailto:munibz@destillo.io">munibz@destillo.io</a> | <a href="https://destillo.io">destillo.io</a></p>
+    </footer>
+
+</body>
+</html>
