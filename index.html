@@ -107,10 +107,27 @@
 
         .hero h1 {
             font-size: 3.5rem;
-            font-weight: 700;
+            font-weight: 500;
             line-height: 1.2;
             margin-bottom: 1.5rem;
             color: var(--dark-text);
+        }
+
+        .rotating-text {
+            display: inline-block;
+            min-width: 600px;
+            text-align: left;
+        }
+
+        .rotating-text::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         .hero h2 {
@@ -174,7 +191,7 @@
 
         h2 {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 500;
             margin-bottom: 3rem;
             text-align: center;
             color: var(--dark-text);
@@ -182,7 +199,7 @@
 
         h3 {
             font-size: 1.8rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 1rem;
             color: var(--dark-text);
         }
@@ -205,6 +222,39 @@
             line-height: 1.8;
             color: var(--accent-text);
             margin-bottom: 1rem;
+        }
+
+        /* Privacy Cards */
+        .privacy-card {
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .privacy-card h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .privacy-card p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--accent-text);
+            margin-bottom: 1rem;
+        }
+
+        .privacy-card p strong {
+            color: var(--dark-text);
+            font-weight: 600;
+        }
+
+        .data-control-card {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            padding: 2.5rem;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
 
         /* Stats Banner */
@@ -391,12 +441,15 @@
             border-radius: 50%;
             margin: 0 auto 1.5rem;
             overflow: hidden;
+            border: 5px solid var(--dark-text);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .team-photo img {
-            width: 100%;
-            height: 100%;
+            width: 110%;
+            height: 110%;
             object-fit: cover;
+            object-position: center 25%;
         }
 
         .team-member h4 {
@@ -549,9 +602,9 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo" style="display: flex; align-items: center; gap: 0.5rem;">
-            <img src="Destillo_Logo.png" alt="Destillo" style="height: 32px; width: 32px;">
-            <span style="font-size: 1.3rem; font-weight: 600; color: var(--dark-text); letter-spacing: 0.5px;">DE<span style="color: var(--primary-tan);">STILLO</span></span>
+        <div class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="Destillo_Logo.png" alt="Destillo" style="height: 42px; width: 42px;">
+            <span style="font-size: 1.5rem; font-weight: 600; color: var(--dark-text); letter-spacing: 0.5px;">DE<span style="color: var(--primary-tan);">STILLO</span></span>
         </div>
         <ul>
             <li><a href="#about">About</a></li>
@@ -563,7 +616,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Custom AI Agents For Complex Legal Documents</h1>
+        <h1>Custom AI Agents For <span class="rotating-text"></span></h1>
         <h2>We extract structured data from handwritten physician notes, degraded scans, and legacy files that off-the-shelf tools can't handle with 99% accuracy.</h2>
         
         <div class="hero-visual">
@@ -602,15 +655,15 @@
         <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; font-size: 1.1rem; color: var(--accent-text);">Results from past customers with medical malpractice documents</p>
         <div class="stats-grid">
             <div class="stat-item">
-                <span class="stat-number">10,000+</span>
+                <span class="stat-number">0</span>
                 <span class="stat-label">Total Extractions</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">99.1%</span>
+                <span class="stat-number">0</span>
                 <span class="stat-label">Accuracy Rate</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">75%</span>
+                <span class="stat-number">0</span>
                 <span class="stat-label">Time Savings</span>
             </div>
         </div>
@@ -714,13 +767,13 @@
     <section class="section-alt">
         <h2>Data Security & Privacy</h2>
         <div class="two-column">
-            <div class="column">
+            <div class="privacy-card">
                 <h3>Compliance</h3>
-                <p><strong>GDPR compliant</strong> - European data protection standards</p>
                 <p><strong>HIPAA compliant</strong> - US healthcare data protection</p>
                 <p><strong>PIPEDA compliant</strong> - Canadian privacy standards</p>
+                <p><strong>GDPR compliant</strong> - European data protection standards</p>
             </div>
-            <div class="column">
+            <div class="privacy-card">
                 <h3>Data Protection</h3>
                 <p>Complete audit trails and processing logs for full transparency</p>
                 <p>Your data is never used to train publicly available AI models</p>
@@ -728,7 +781,7 @@
                 <p>All data processed in secure, encrypted environments</p>
             </div>
         </div>
-        <div style="max-width: 900px; margin: 3rem auto 0; padding: 2rem; background-color: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <div class="data-control-card">
             <h3 style="margin-bottom: 1rem;">Your Data, Your Control</h3>
             <p style="font-size: 1.1rem; line-height: 1.8; color: var(--accent-text);">
                 Data is processed solely for your specific extraction tasks. No client data is retained beyond project completion without explicit agreement. Full data deletion available upon request.
@@ -777,6 +830,101 @@
         <p>&copy; 2025 Destillo. All rights reserved.</p>
         <p><a href="mailto:munibz@destillo.io">munibz@destillo.io</a> | <a href="https://destillo.io">destillo.io</a></p>
     </footer>
+
+    <script>
+        // Typing animation for headline
+        const phrases = [
+            'Complex Legal Documents',
+            'Medical Malpractice Cases',
+            'Your Messiest Documents'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100;
+        const deletingSpeed = 50;
+        const pauseTime = 2000;
+
+        function typeText() {
+            const rotatingText = document.querySelector('.rotating-text');
+            const currentPhrase = phrases[phraseIndex];
+
+            if (!isDeleting) {
+                rotatingText.textContent = currentPhrase.substring(0, charIndex);
+                charIndex++;
+
+                if (charIndex > currentPhrase.length) {
+                    isDeleting = true;
+                    setTimeout(typeText, pauseTime);
+                    return;
+                }
+            } else {
+                rotatingText.textContent = currentPhrase.substring(0, charIndex);
+                charIndex--;
+
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                }
+            }
+
+            setTimeout(typeText, isDeleting ? deletingSpeed : typingSpeed);
+        }
+
+        // Start typing animation when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(typeText, 500);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target, duration = 2000, suffix = '') {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            function updateCounter() {
+                start += increment;
+                if (start < target) {
+                    if (suffix === '%') {
+                        element.textContent = start.toFixed(1) + suffix;
+                    } else if (suffix === '+') {
+                        element.textContent = Math.floor(start).toLocaleString() + suffix;
+                    } else {
+                        element.textContent = Math.floor(start) + suffix;
+                    }
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = (suffix === '%' ? target.toFixed(1) : target.toLocaleString()) + suffix;
+                }
+            }
+            updateCounter();
+        }
+
+        // Intersection Observer to trigger counter when stats section is visible
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    entry.target.dataset.animated = 'true';
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    
+                    animateCounter(statNumbers[0], 10000, 3500, '+');
+                    animateCounter(statNumbers[1], 99.1, 3500, '%');
+                    animateCounter(statNumbers[2], 75, 3500, '%');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const statsSection = document.querySelector('.stats-banner');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+        });
+    </script>
 
 </body>
 </html>
