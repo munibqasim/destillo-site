@@ -140,36 +140,180 @@
         }
 
         .transformation-visual {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 5rem auto 3rem;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 3rem;
-            align-items: center;
             background-color: var(--white);
-            padding: 3rem;
+            padding: 4rem 3rem;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
         }
 
-        .transformation-panel {
-            text-align: center;
+        .flow-container {
+            display: grid;
+            grid-template-columns: 1fr 200px 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
         }
 
-        .transformation-panel img {
-            width: 100%;
-            height: auto;
+        .flow-items {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .document-showcase {
+            background: var(--light-bg);
+            padding: 1rem;
             border-radius: 8px;
             border: 2px solid var(--soft-tan);
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .panel-label {
-            margin-top: 1.5rem;
-            font-size: 1.1rem;
+        .document-showcase img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .document-label {
+            margin-top: 0.75rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
             color: var(--dark-text);
-            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+        }
+
+        .center-label {
+            margin-top: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--primary-tan);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .output-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .stat-badge {
+            background: linear-gradient(135deg, var(--primary-tan), var(--soft-tan));
+            color: var(--white);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .flow-item {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--soft-tan);
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            color: var(--dark-text);
+            position: relative;
+        }
+
+        .flow-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .flow-logo {
+            width: 100px;
+            height: 100px;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 50%;
+            border: 3px solid var(--primary-tan);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .flow-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Animated flow lines */
+        .flow-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-tan), transparent);
+            animation: flowLine 3s ease-in-out infinite;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .flow-line-left {
+            right: 100%;
+            width: 4rem;
+        }
+
+        .flow-line-right {
+            left: 100%;
+            width: 4rem;
+        }
+
+        @keyframes flowLine {
+            0% {
+                opacity: 0.3;
+                transform: translateY(-50%) scaleX(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-50%) scaleX(1.2);
+            }
+            100% {
+                opacity: 0.3;
+                transform: translateY(-50%) scaleX(0.8);
+            }
+        }
+
+        /* Connecting lines between items and center */
+        .connection-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection-line {
+            stroke: var(--primary-tan);
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.4;
+            stroke-dasharray: 5, 5;
+            animation: dashFlow 20s linear infinite;
+        }
+
+        @keyframes dashFlow {
+            to {
+                stroke-dashoffset: -1000;
+            }
         }
 
         .transformation-arrow {
@@ -729,20 +873,44 @@
         <h2>We extract structured data from handwritten physician notes, degraded scans, and legacy files that off-the-shelf tools can't handle with 99% accuracy.</h2>
         
         <div class="transformation-visual">
-            <div class="transformation-panel">
-                <img src="messy-document.png" alt="Unstructured handwritten medical notes" style="margin-bottom: 1rem;">
-                <img src="messy-document-2.png" alt="Unstructured clinical notes">
-                <p class="panel-label">Unstructured Documents</p>
-            </div>
-            <div class="transformation-arrow">
-                <img src="Destillo_Logo.png" alt="Destillo" class="arrow-logo">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 30H50M50 30L35 15M50 30L35 45" stroke="#1B1B1B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <div class="flow-container">
+                <!-- Left: Real Messy Documents -->
+                <div class="flow-items">
+                    <div class="document-showcase">
+                        <img src="messy-document.png" alt="Handwritten medical notes">
+                        <p class="document-label">Handwritten Notes</p>
+                    </div>
+                    <div class="document-showcase">
+                        <img src="messy-document-2.png" alt="Clinical notes">
+                        <p class="document-label">Degraded Scans</p>
+                    </div>
+                </div>
+
+                <!-- Center: Destillo Logo -->
+                <div class="flow-center">
+                    <div class="flow-line flow-line-left"></div>
+                    <div class="flow-logo">
+                        <img src="Destillo_Logo.png" alt="Destillo AI">
+                    </div>
+                    <div class="flow-line flow-line-right"></div>
+                    <p class="center-label">AI Processing</p>
+                </div>
+
+                <!-- Right: Clean Output -->
+                <div class="flow-items">
+                    <div class="document-showcase">
+                        <img src="structured-data.png" alt="Structured data output">
+                        <p class="document-label">Structured Data</p>
+                    </div>
+                </div>
+
+                <!-- SVG for connecting lines -->
+                <svg class="connection-svg" xmlns="http://www.w3.org/2000/svg">
+                    <line class="connection-line" x1="30%" y1="35%" x2="50%" y2="50%" />
+                    <line class="connection-line" x1="30%" y1="65%" x2="50%" y2="50%" />
+                    <line class="connection-line" x1="50%" y1="50%" x2="70%" y2="35%" />
+                    <line class="connection-line" x1="50%" y1="50%" x2="70%" y2="65%" />
                 </svg>
-            </div>
-            <div class="transformation-panel">
-                <img src="structured-data.png" alt="Clean structured data table">
-                <p class="panel-label">Structured Data</p>
             </div>
         </div>
         
