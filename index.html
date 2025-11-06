@@ -140,7 +140,7 @@
         }
 
         .transformation-visual {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 5rem auto 3rem;
             background-color: var(--white);
             padding: 3rem 2rem;
@@ -151,8 +151,8 @@
 
         .flow-container {
             display: grid;
-            grid-template-columns: 1fr 180px 1fr;
-            gap: 2.5rem;
+            grid-template-columns: 1fr 160px 1fr;
+            gap: 3rem;
             align-items: center;
             position: relative;
         }
@@ -162,23 +162,44 @@
             flex-direction: column;
             gap: 2rem;
             justify-content: center;
+            position: relative;
         }
 
         .document-showcase {
-            background: var(--light-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            border: 2px solid var(--soft-tan);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+            position: relative;
         }
 
         .document-showcase img {
             width: 100%;
-            max-width: 280px;
+            max-width: 500px;
             height: auto;
-            border-radius: 4px;
+            border-radius: 8px;
             display: block;
             margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Image rotation animation for left side */
+        .flow-items:first-child .document-showcase:nth-child(1) {
+            animation: fadeInOut 6s ease-in-out infinite;
+        }
+
+        .flow-items:first-child .document-showcase:nth-child(2) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            animation: fadeInOut 6s ease-in-out 3s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 45% { opacity: 1; }
+            55%, 100% { opacity: 0; }
         }
 
         .document-label {
@@ -893,7 +914,7 @@
                         <img src="Destillo_Logo.png" alt="Destillo AI">
                     </div>
                     <div class="flow-line flow-line-right"></div>
-                    <p class="center-label">AI Processing</p>
+                    <p class="center-label">Destillo Agents</p>
                 </div>
 
                 <!-- Right: Clean Output -->
