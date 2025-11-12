@@ -149,20 +149,13 @@
             position: relative;
         }
 
-        .flow-container {
-            display: grid;
-            grid-template-columns: 1fr 160px 1fr;
-            gap: 3rem;
-            align-items: center;
-            position: relative;
-        }
-
         .flow-items {
             display: flex;
             flex-direction: column;
             gap: 2rem;
             justify-content: center;
             position: relative;
+            min-height: 600px;
         }
 
         .document-showcase {
@@ -181,14 +174,36 @@
             right: 0;
         }
 
+        .document-label {
+            margin-top: 0.75rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--dark-text);
+            font-size: 0.95rem;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .document-showcase img {
             width: 100%;
-            max-width: 600px;
+            max-width: 450px;
             height: auto;
             border-radius: 8px;
             display: block;
             margin: 0 auto;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .flow-container {
+            display: grid;
+            grid-template-columns: 450px 180px 450px;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            justify-content: center;
         }
 
         /* 4-image rotation: each shows for 3 seconds in 12-second cycle */
@@ -300,9 +315,9 @@
         }
 
         .flow-logo {
-            width: 80px;
-            height: 80px;
-            padding: 1.25rem;
+            width: 90px;
+            height: 90px;
+            padding: 1.5rem;
             background: var(--white);
             border-radius: 50%;
             border: 3px solid var(--primary-tan);
