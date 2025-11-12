@@ -208,26 +208,18 @@
             justify-content: center;
         }
 
-        /* 4-image rotation: each shows for 3 seconds in 12-second cycle */
+        /* 2-image rotation: each shows for 3 seconds in 6-second cycle */
         .rotating-doc-1 {
-            animation: fadeInOut4 12s ease-in-out infinite;
+            animation: fadeInOut2 6s ease-in-out infinite;
         }
 
         .rotating-doc-2 {
-            animation: fadeInOut4 12s ease-in-out 3s infinite;
+            animation: fadeInOut2 6s ease-in-out 3s infinite;
         }
 
-        .rotating-doc-3 {
-            animation: fadeInOut4 12s ease-in-out 6s infinite;
-        }
-
-        .rotating-doc-4 {
-            animation: fadeInOut4 12s ease-in-out 9s infinite;
-        }
-
-        @keyframes fadeInOut4 {
-            0%, 20% { opacity: 1; z-index: 10; }
-            25%, 100% { opacity: 0; z-index: 1; }
+        @keyframes fadeInOut2 {
+            0%, 45% { opacity: 1; z-index: 10; }
+            50%, 100% { opacity: 0; z-index: 1; }
         }
 
         /* Directional arrow styling */
@@ -1122,20 +1114,12 @@
                 <!-- Left: Real Messy Documents -->
                 <div class="flow-items">
                     <div class="document-showcase">
-                        <img src="messy-document.png" alt="Handwritten medical notes" class="rotating-doc rotating-doc-1">
+                        <img src="messy-document-2.png" alt="Handwritten medical notes" class="rotating-doc rotating-doc-1">
                         <p class="document-label rotating-doc rotating-doc-1">Handwritten Notes</p>
                     </div>
                     <div class="document-showcase rotating-doc-overlay">
-                        <img src="messy-document-2.png" alt="Clinical notes" class="rotating-doc rotating-doc-2">
-                        <p class="document-label rotating-doc rotating-doc-2">Degraded Scans</p>
-                    </div>
-                    <div class="document-showcase rotating-doc-overlay">
-                        <img src="messy-document-3.jpg" alt="Obstetrical labor flow record" class="rotating-doc rotating-doc-3">
-                        <p class="document-label rotating-doc rotating-doc-3">Complex Medical Forms</p>
-                    </div>
-                    <div class="document-showcase rotating-doc-overlay">
-                        <img src="messy-document-4.jpg" alt="Labor flow documentation" class="rotating-doc rotating-doc-4">
-                        <p class="document-label rotating-doc rotating-doc-4">Legacy Medical Records</p>
+                        <img src="messy-document-3.jpg" alt="Obstetrical labor flow record" class="rotating-doc rotating-doc-2">
+                        <p class="document-label rotating-doc rotating-doc-2">Complex Medical Forms</p>
                     </div>
                 </div>
 
