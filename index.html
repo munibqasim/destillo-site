@@ -190,11 +190,13 @@
         .document-showcase img {
             width: 100%;
             max-width: 450px;
-            height: auto;
+            height: 550px;
+            object-fit: contain;
             border-radius: 8px;
             display: block;
             margin: 0 auto;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: var(--white);
         }
 
         .flow-container {
@@ -1121,19 +1123,19 @@
                 <div class="flow-items">
                     <div class="document-showcase">
                         <img src="messy-document.png" alt="Handwritten medical notes" class="rotating-doc rotating-doc-1">
-                        <p class="document-label">Handwritten Notes</p>
+                        <p class="document-label rotating-doc rotating-doc-1">Handwritten Notes</p>
                     </div>
                     <div class="document-showcase rotating-doc-overlay">
                         <img src="messy-document-2.png" alt="Clinical notes" class="rotating-doc rotating-doc-2">
-                        <p class="document-label">Degraded Scans</p>
+                        <p class="document-label rotating-doc rotating-doc-2">Degraded Scans</p>
                     </div>
                     <div class="document-showcase rotating-doc-overlay">
                         <img src="messy-document-3.jpg" alt="Obstetrical labor flow record" class="rotating-doc rotating-doc-3">
-                        <p class="document-label">Complex Medical Forms</p>
+                        <p class="document-label rotating-doc rotating-doc-3">Complex Medical Forms</p>
                     </div>
                     <div class="document-showcase rotating-doc-overlay">
                         <img src="messy-document-4.jpg" alt="Labor flow documentation" class="rotating-doc rotating-doc-4">
-                        <p class="document-label">Legacy Medical Records</p>
+                        <p class="document-label rotating-doc rotating-doc-4">Legacy Medical Records</p>
                     </div>
                 </div>
 
