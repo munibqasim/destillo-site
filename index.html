@@ -1,1068 +1,1133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destillo AI — Document Intelligence for Development Finance</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --navy: #0B1D33;
-            --navy-light: #132B4A;
-            --slate: #3A4F6A;
-            --stone: #6B7D95;
-            --sand: #F5F1EB;
-            --sand-dark: #E8E2D8;
-            --cream: #FDFBF7;
-            --accent: #2E7D6F;
-            --accent-light: #3A9B8A;
-            --accent-pale: #E8F5F1;
-            --white: #FFFFFF;
-            --text: #1A2332;
-            --text-light: #5A6675;
-            --warning: #D4793A;
-            --warning-pale: #FFF3EB;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            color: var(--text);
-            background: var(--cream);
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-        }
-
-        /* NAV */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 1rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(253, 251, 247, 0.92);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.04);
-        }
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-        }
-
-        .logo-mark {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .logo-mark img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--navy);
-            letter-spacing: 0.04em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--slate);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover { color: var(--navy); }
-
-        .nav-cta {
-            background: var(--navy) !important;
-            color: var(--white) !important;
-            padding: 0.6rem 1.5rem;
-            border-radius: 6px;
-            font-size: 0.85rem !important;
-            transition: background 0.2s !important;
-        }
-
-        .nav-cta:hover { background: var(--navy-light) !important; }
-
-        /* HERO */
-        .hero {
-            padding: 7rem 3rem 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 3.4rem;
-            font-weight: 800;
-            line-height: 1.1;
-            color: #000000;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-content p {
-            font-size: 1.15rem;
-            color: var(--text-light);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            max-width: 520px;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--accent);
-            color: var(--white);
-            padding: 0.9rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.25s ease;
-        }
-
-        .hero-cta:hover {
-            background: var(--accent-light);
-            transform: translateY(-1px);
-        }
-
-        /* HERO CARD */
-        .hero-card {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 20px 60px rgba(11,29,51,0.06);
-            border: 1px solid rgba(0,0,0,0.04);
-        }
-
-        .hero-card-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--stone);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 1.2rem;
-        }
-
-        .doc-flow {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1.8rem;
-            flex-wrap: wrap;
-        }
-
-        .doc-chip {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            background: var(--sand);
-            border: 1px solid var(--sand-dark);
-            border-radius: 8px;
-            padding: 0.55rem 0.9rem;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--slate);
-        }
-
-        .doc-chip svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
-        .flow-arrow-svg {
-            color: var(--stone);
-            flex-shrink: 0;
-        }
-
-        .flow-arrow-svg svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .output-chip {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            background: var(--accent-pale);
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            padding: 0.55rem 0.9rem;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .output-chip svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--sand-dark);
-        }
-
-        .hero-stat-number {
-            font-family: 'Fraunces', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--navy);
-        }
-
-        .hero-stat-label {
-            font-size: 0.75rem;
-            color: var(--stone);
-            line-height: 1.4;
-            margin-top: 0.2rem;
-        }
-
-        /* CREDENTIALS BAR */
-        .credentials {
-            padding: 3rem;
-            background: var(--sand);
-            border-top: 1px solid var(--sand-dark);
-            border-bottom: 1px solid var(--sand-dark);
-        }
-
-        .credentials-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3.5rem;
-            flex-wrap: wrap;
-        }
-
-        .credential-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--stone);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .credential-item {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--navy);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .credential-dot {
-            width: 6px; height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-        }
-
-        /* MESSY DOCS SECTION */
-        .messy-docs {
-            padding: 5rem 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .messy-docs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-            align-items: center;
-            margin-top: 2.5rem;
-        }
-
-        .messy-docs-visual {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .messy-doc-item {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(0,0,0,0.06);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .messy-doc-item:hover {
-            box-shadow: 0 6px 20px rgba(11,29,51,0.08);
-        }
-
-        .messy-doc-icon {
-            font-size: 2rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .messy-doc-item h4 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 0.3rem;
-        }
-
-        .messy-doc-item p {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            line-height: 1.5;
-        }
-
-        .messy-docs-content h2 {
-            font-family: 'Fraunces', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .messy-docs-content p {
-            font-size: 1.05rem;
-            color: var(--text-light);
-            line-height: 1.7;
-            margin-bottom: 1.2rem;
-        }
-
-        .messy-highlight {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: var(--warning-pale);
-            border: 1px solid var(--warning);
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--warning);
-            margin-top: 0.5rem;
-        }
-
-        /* SECTION COMMON */
-        .section-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.8rem;
-        }
-
-        .section-title {
-            font-family: 'Fraunces', serif;
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin-bottom: 3.5rem;
-            line-height: 1.7;
-        }
-
-        /* USE CASES */
-        .use-cases {
-            padding: 6rem 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .use-case-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .use-case-card {
-            background: var(--white);
-            border-radius: 14px;
-            padding: 2.2rem;
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .use-case-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 3px; height: 100%;
-            background: var(--accent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .use-case-card:hover {
-            box-shadow: 0 8px 30px rgba(11,29,51,0.08);
-            border-color: transparent;
-        }
-
-        .use-case-card:hover::before { opacity: 1; }
-
-        .use-case-icon {
-            width: 44px; height: 44px;
-            background: var(--accent-pale);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.2rem;
-            font-size: 1.2rem;
-        }
-
-        .use-case-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 0.6rem;
-        }
-
-        .use-case-card p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.65;
-        }
-
-        .use-case-tags {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .use-case-tag {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--accent);
-            background: var(--accent-pale);
-            padding: 0.25rem 0.65rem;
-            border-radius: 4px;
-        }
-
-        /* RESULTS */
-        .results {
-            padding: 6rem 3rem;
-            background: var(--navy);
-            color: var(--white);
-        }
-
-        .results-inner { max-width: 1200px; margin: 0 auto; }
-        .results .section-label { color: var(--accent-light); }
-        .results .section-title { color: var(--white); }
-        .results .section-subtitle { color: var(--stone); }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .result-card {
-            background: var(--navy-light);
-            border-radius: 14px;
-            padding: 2rem;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .result-number {
-            font-family: 'Fraunces', serif;
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: var(--accent-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .result-description {
-            font-size: 0.88rem;
-            color: var(--stone);
-            line-height: 1.5;
-        }
-
-        .result-source {
-            font-size: 0.72rem;
-            color: rgba(255,255,255,0.25);
-            margin-top: 0.8rem;
-            font-style: italic;
-        }
-
-        /* HOW IT WORKS */
-        .how-it-works {
-            padding: 6rem 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .step {
-            position: relative;
-            background: var(--white);
-            border-radius: 14px;
-            padding: 2rem;
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .step:hover {
-            box-shadow: 0 6px 20px rgba(11,29,51,0.06);
-        }
-
-        .step-icon-wrap {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .step-icon-wrap svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .step-icon-wrap.step-1 { background: #E8F0FE; }
-        .step-icon-wrap.step-2 { background: var(--accent-pale); }
-        .step-icon-wrap.step-3 { background: #FFF3EB; }
-        .step-icon-wrap.step-4 { background: #F0E8FE; }
-
-        .step-badge {
-            display: inline-block;
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--stone);
-            background: var(--sand);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            margin-bottom: 0.8rem;
-            letter-spacing: 0.05em;
-        }
-
-        .step h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 0.6rem;
-        }
-
-        .step p {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            line-height: 1.65;
-        }
-
-        /* STANDARDS */
-        .standards {
-            padding: 4rem 3rem;
-            background: var(--sand);
-            border-top: 1px solid var(--sand-dark);
-            border-bottom: 1px solid var(--sand-dark);
-        }
-
-        .standards-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .standards-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--stone);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
-        }
-
-        .standards-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .standard-badge {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--slate);
-            padding: 0.6rem 1.2rem;
-            border: 1px solid var(--sand-dark);
-            border-radius: 8px;
-            background: var(--white);
-        }
-
-        /* SECURITY */
-        .security {
-            padding: 6rem 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .security-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .security-item {
-            text-align: center;
-            padding: 1.5rem;
-        }
-
-        .security-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
-
-        .security-item h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 0.4rem;
-        }
-
-        .security-item p {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            line-height: 1.5;
-        }
-
-        /* CTA */
-        .cta-section {
-            padding: 6rem 3rem;
-            background: var(--navy);
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-family: 'Fraunces', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            color: var(--stone);
-            font-size: 1.05rem;
-            margin-bottom: 2.5rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-email {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--accent);
-            color: var(--white);
-            padding: 1rem 2.2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.25s ease;
-        }
-
-        .cta-email:hover {
-            background: var(--accent-light);
-            transform: translateY(-1px);
-        }
-
-        .cta-direct {
-            color: var(--stone);
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .cta-direct a {
-            color: var(--accent-light);
-            text-decoration: none;
-        }
-
-        footer {
-            padding: 2rem 3rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--stone);
-            border-top: 1px solid var(--sand-dark);
-        }
-
-        /* ANIMATIONS */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-content { animation: fadeUp 0.6s ease forwards; }
-        .hero-visual { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            nav { padding: 1rem 1.5rem; }
-            .hero {
-                grid-template-columns: 1fr;
-                padding: 7rem 1.5rem 3rem;
-                min-height: auto;
-            }
-            .hero-content h1 { font-size: 2.4rem; }
-            .use-case-grid { grid-template-columns: 1fr; }
-            .results-grid { grid-template-columns: repeat(2, 1fr); }
-            .steps { grid-template-columns: repeat(2, 1fr); }
-            .security-grid { grid-template-columns: repeat(2, 1fr); }
-            .messy-docs-grid { grid-template-columns: 1fr; }
-            .credentials-inner { gap: 2rem; justify-content: flex-start; }
-        }
-
-        @media (max-width: 600px) {
-            .hero-content h1 { font-size: 2rem; }
-            .section-title { font-size: 1.8rem; }
-            .results-grid { grid-template-columns: 1fr; }
-            .steps { grid-template-columns: 1fr; }
-            .security-grid { grid-template-columns: 1fr; }
-            .messy-docs-visual { grid-template-columns: 1fr; }
-            .nav-links a:not(.nav-cta) { display: none; }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Destillo. Evidence for development finance</title>
+<meta name="description" content="Evidence for development finance. Destillo pulls evidence out of messy PDFs, spreadsheets and scanned archives across a large source base, for evaluation, results and outcomes teams at MDBs and DFIs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDEEE9; --card:#F5F6F2; --card-2:#FAFBF8;
+  --ink:#17201F; --ink-2:#4C5856; --ink-3:#7A8582;
+  --rule:#CBCFC6; --rule-2:#DCDFD7;
+  --seal:#1D4A3B; --seal-2:#3D7A62; --seal-tint:#E1EAE4;
+  --flag:#8C5A1B; --flag-tint:#F1E7D8;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --serif:"Spectral",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,68px); --max:1200px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.012em;margin:0}
+h1{font-size:clamp(2.3rem,5.2vw,3.8rem);line-height:1.07}
+h2{font-size:clamp(1.65rem,3vw,2.3rem);line-height:1.15}
+p{margin:0 0 .9em}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+.lede{font-size:clamp(1.01rem,1.5vw,1.15rem);line-height:1.55;color:var(--ink-2);max-width:58ch}
+.small{font-size:.82rem;line-height:1.5;color:var(--ink-3)}
+.fill{background:var(--flag-tint);border-bottom:1px dashed var(--flag);color:var(--flag);padding:0 .18em;font-weight:500}
+svg{display:block}
+
+header.nav{position:sticky;top:0;z-index:60;background:rgba(237,238,233,.95);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.navin{display:flex;align-items:center;gap:28px;height:64px;max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+.mark{font-family:var(--serif);font-size:1.3rem;font-weight:600;text-decoration:none;
+  display:inline-flex;align-items:center;gap:9px}
+.dmark{flex:0 0 auto;display:block}
+.dmark .ghost{fill:var(--seal);opacity:.11}
+.dmark .row rect{fill:var(--seal)}
+.dmark .spark{fill:none;stroke:var(--seal);stroke-width:1.15;stroke-linejoin:round;stroke-linecap:round}
+@keyframes drun{from{transform:translateX(0)}to{transform:translateX(-32px)}}
+.dmark .row{animation-name:drun;animation-timing-function:linear;animation-iteration-count:infinite}
+.logo{height:28px;width:auto;aspect-ratio:24/28}
+.hmark{height:3.3em;width:auto;aspect-ratio:24/28;margin-top:.04em}
+.navlinks{display:flex;gap:22px;margin-left:auto;align-items:center}
+.navlinks a{text-decoration:none;font-size:.91rem;color:var(--ink-2);border-bottom:1px solid transparent;padding-bottom:2px}
+.navlinks a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.btn{display:inline-block;background:var(--ink);color:#F2F4F0;text-decoration:none;
+  padding:11px 20px;font-size:.92rem;font-weight:500;border-radius:2px;border:1px solid var(--ink);
+  transition:background .2s,border-color .2s}
+.btn:hover{background:var(--seal);border-color:var(--seal)}
+.btn.lg{padding:14px 26px;font-size:1rem}
+@media(max-width:1020px){.navlinks a:not(.btn){display:none}}
+
+.hero{padding:clamp(54px,7vw,92px) 0 clamp(38px,4.6vw,58px)}
+.hero h1{max-width:none;display:flex;align-items:flex-start;justify-content:flex-start;gap:clamp(18px,2.4vw,32px)}
+.hero h1>span{max-width:13ch;flex:0 0 auto}
+@media(max-width:560px){.hero h1{gap:14px}.hero h1>span{max-width:11ch}}
+.hero .lede{margin-top:22px}
+.hviz{margin-top:clamp(30px,4vw,46px);background:#131B1A;border:1px solid #131B1A;
+  border-radius:3px;box-shadow:0 18px 42px rgba(23,32,31,.22);overflow:hidden}
+.hbar{display:flex;align-items:center;gap:9px;padding:11px 20px;border-bottom:1px solid #253230;
+  background:#101817}
+.hbar i{width:8px;height:8px;border-radius:50%;background:#2E3A38;display:block}
+.hbar i:first-child{background:#3D5A4C}
+.hbar em{font-style:normal;font-family:var(--mono);font-size:.71rem;color:#7A8783;margin-left:8px}
+.hbar .hlive{margin-left:auto;display:flex;align-items:center;gap:7px;font-family:var(--mono);
+  font-size:.7rem;color:#8E9995}
+@keyframes blip{0%,100%{opacity:.35}50%{opacity:1}}
+.hbar .hlive b{width:6px;height:6px;border-radius:50%;background:#4E9377;display:block;
+  animation:blip 1.8s ease-in-out infinite}
+.hstat{display:flex;border-bottom:1px solid #253230;flex-wrap:wrap}
+.hstat>div{padding:14px 22px;border-right:1px solid #202C2A}
+.hstat b{font-family:var(--serif);font-size:1.55rem;font-weight:400;display:block;line-height:1.06;
+  font-variant-numeric:tabular-nums;margin-bottom:1px;color:#F2F4F0}
+.hstat span{font-size:.76rem;color:#8E9995}
+.hstat .hlangs{margin-left:auto;border-right:0;display:flex;align-items:center;gap:6px}
+.hstat .hlangs span{font-family:var(--mono);font-size:.7rem;border:1px solid #2E3A38;
+  padding:2px 6px;border-radius:2px;color:#A9B3AF}
+@media(max-width:700px){.hstat .hlangs{margin-left:0;width:100%;border-top:1px solid #202C2A}}
+.hgrid{display:grid;grid-template-columns:repeat(16,1fr);gap:10px;padding:22px}
+@media(max-width:900px){.hgrid{grid-template-columns:repeat(8,1fr);gap:8px;padding:16px}}
+@media(max-width:560px){.hgrid{grid-template-columns:repeat(4,1fr);gap:7px;padding:14px}}
+.pg{position:relative;aspect-ratio:3/4;background:#EDEEE9;border-radius:2px;padding:6px 5px;
+  display:flex;flex-direction:column;gap:3px;overflow:hidden;opacity:.2;
+  transition:opacity .4s ease,box-shadow .35s ease,transform .35s ease}
+.pg.read{opacity:1}
+.pg.hit{box-shadow:0 0 0 2px #4E9377;transform:translateY(-2px)}
+.pg.gap{box-shadow:0 0 0 2px #B98442;transform:translateY(-2px)}
+.pg i{display:block;height:2px;background:#BEC5BD;border-radius:1px}
+.pg i.s{width:58%}.pg i.m{width:80%}
+.pg .tb{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.pg .tb i{height:3px;width:auto;background:#C7CEC6}
+.pg .tb i:nth-child(-n+4){background:#A7B3AB}
+.pg .br{display:flex;align-items:flex-end;gap:2px;flex:1;min-height:0}
+.pg .br i{flex:1;height:auto;background:#A9BBB0;border-radius:1px 1px 0 0}
+.pg svg{width:100%;flex:1;min-height:0}
+.pg.scan{background:#DFDED5}
+.pg.scan i{background:#ADB3AA}
+.pg.scan::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(23,32,31,.09) 0 1px,transparent 1px 3px)}
+.pg .mk{position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;
+  opacity:0;transition:opacity .3s}
+.pg.hit .mk{background:#4E9377;opacity:1}
+.pg.gap .mk{background:#B98442;opacity:1}
+.pg .lg{position:absolute;bottom:2px;right:3px;font-family:var(--mono);font-size:6px;
+  color:#8E968E;letter-spacing:-.02em}
+.hkey{border-top:1px solid #253230;background:#18211F;padding:14px 22px;display:flex;
+  gap:22px;flex-wrap:wrap;align-items:center;font-size:.8rem;color:#9DA8A4}
+@media(max-width:560px){.hkey{padding:13px 16px;gap:12px 18px;font-size:.76rem}}
+.hkey span{display:flex;align-items:center;gap:8px}
+.hkey i{width:9px;height:12px;border-radius:1px;display:block;flex:0 0 auto}
+.hkey .k-read{background:#C6CCC4}
+.hkey .k-hit{background:#4E9377}
+.hkey .k-gap{background:#B98442}
+.hkey .hnote{margin-left:auto;color:#7A8783;font-size:.76rem}
+.vprop{display:flex;margin-top:clamp(26px,3.4vw,38px);border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.vprop>div{flex:1 1 200px;padding:20px 26px 20px 0;border-right:1px solid var(--rule-2)}
+.vprop>div:last-child{border-right:0}
+.vprop b{display:block;font-family:var(--serif);font-size:2rem;font-weight:400;line-height:1;margin-bottom:6px}
+.vprop span{font-size:.87rem;color:var(--ink-2);display:block;max-width:30ch}
+@media(max-width:760px){.vprop>div{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--rule-2);padding-right:0}
+  .vprop>div:last-child{border-bottom:0}}
+
+.cmp{border:1px solid var(--rule);background:var(--card);margin-top:8px}
+.cmprow{display:grid;grid-template-columns:238px 1fr 92px;gap:20px;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--rule-2)}
+@media(max-width:760px){.cmprow{grid-template-columns:1fr 76px;gap:10px 16px}
+  .cmplab{grid-column:1/-1}}
+.cmplab{font-size:.95rem;font-weight:600;line-height:1.3}
+.cmplab em{display:block;font-style:normal;font-weight:400;font-size:.81rem;color:var(--ink-3);margin-top:3px}
+.cmpbar{display:flex;height:34px;background:var(--paper-2);border:1px solid var(--rule-2);overflow:hidden}
+.cmpbar span{display:flex;align-items:center;padding:0 10px;font-family:var(--mono);font-size:.76rem;
+  white-space:nowrap;overflow:hidden}
+.cmpbar .found{background:var(--seal);color:#F4F6F2}
+.cmpbar .missed{background:var(--flag-tint);color:var(--flag);border-left:1px solid #DCC7A6}
+.cmpval{text-align:right;font-family:var(--serif);font-size:1.45rem;line-height:1}
+.cmpval em{display:block;font-style:normal;font-family:var(--sans);font-size:.73rem;
+  color:var(--ink-3);margin-top:4px}
+.cmpfoot{padding:15px 24px;font-size:.82rem;color:var(--ink-3);display:flex;gap:22px;flex-wrap:wrap;
+  align-items:center}
+.cmpfoot i{width:10px;height:10px;border-radius:1px;display:inline-block;margin-right:7px;vertical-align:-1px}
+@media(max-width:820px){.hkey .hnote{margin-left:0;width:100%}}
+section{padding:clamp(46px,5.6vw,80px) 0;border-top:1px solid var(--rule)}
+.shead{max-width:62ch;margin-bottom:clamp(26px,3.2vw,38px)}
+.shead h2{margin-bottom:12px}
+
+/* ═══ USE CASES ═══ */
+.uses{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-2);border:1px solid var(--rule-2)}
+@media(max-width:940px){.uses{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.uses{grid-template-columns:1fr}}
+.use{background:var(--card);padding:24px 22px}
+.use .ic{width:30px;height:30px;margin-bottom:14px;color:var(--seal)}
+.use h3{font-family:var(--sans);font-size:.99rem;font-weight:600;letter-spacing:0;margin-bottom:7px}
+.use p{font-size:.89rem;color:var(--ink-2);margin:0}
+.use .tagline{display:inline-block;margin-top:11px;font-size:.71rem;color:var(--seal);
+  background:var(--seal-tint);padding:2px 8px;border-radius:2px}
+
+/* ═══ METHOD ═══ */
+.method{border:1px solid var(--rule);background:var(--card)}
+.wfwrap{padding:26px 20px 12px;border-bottom:1px solid var(--rule);background:var(--card-2)}
+.wfsteps{display:none;list-style:none;margin:0;padding:0;counter-reset:wf}
+@media(max-width:760px){.wfsteps{display:block}}
+.wfsteps li{display:flex;gap:13px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--rule-2)}
+.wfsteps li:last-child{border-bottom:0}
+.wfsteps b{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rule);
+  display:grid;place-items:center;font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--ink-3)}
+.wfsteps li.on b{background:var(--seal);border-color:var(--seal);color:#F4F6F2}
+.wfsteps li.hum b{border-color:var(--seal-2)}
+.wfsteps .wt{font-size:.93rem;font-weight:600;line-height:1.3}
+.wfsteps .wk{display:block;font-weight:400;font-size:.76rem;color:var(--ink-3);margin-top:2px}
+.wfcap{margin:0;padding:16px 22px;font-size:.92rem;color:var(--ink-2);line-height:1.5;
+  border-top:1px solid var(--rule);min-height:62px}
+@media(max-width:560px){.wfcap{padding:14px 16px;font-size:.86rem}}
+.wf{width:100%;min-width:0;height:auto}
+@media(max-width:760px){.wf{display:none}}
+.wf .nd{cursor:pointer}
+.wf .ring{fill:none;stroke:var(--ink);stroke-width:11}
+.wf .dash{fill:none;stroke:var(--card-2);stroke-width:1.2;stroke-dasharray:5 5}
+.wf .core{stroke:var(--ink);stroke-width:1.5;transition:fill .3s}
+.wf .core.ai,.wf .core.out{fill:var(--card-2)}
+.wf .core.human{fill:var(--seal);stroke:var(--seal)}
+.wf .loop{fill:none;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.wf .loop.dk{stroke:var(--seal)}
+.wf .loop.lt{stroke:var(--card-2)}
+.wf .badge{fill:var(--seal)}
+.wf .bnum{fill:#F4F6F2;font-family:var(--mono);font-size:14px;text-anchor:middle}
+.wf .ttl{fill:var(--ink);font-family:var(--sans);font-weight:600;font-size:16.5px;text-anchor:middle;transition:fill .3s}
+.wf .pill{fill:var(--paper);stroke:var(--rule);stroke-width:1}
+.wf .pill.hm{fill:var(--seal-tint);stroke:var(--seal-2)}
+.wf .ptx{font-family:var(--sans);font-size:12.5px;font-weight:500;text-anchor:middle;fill:var(--ink-2)}
+.wf .ptx.hm{fill:var(--seal)}
+.wf .road{fill:none;stroke:var(--ink);stroke-width:13;stroke-linecap:round;stroke-linejoin:round}
+.wf .roadc{fill:none;stroke:var(--card-2);stroke-width:1.3;stroke-dasharray:6 7;stroke-linejoin:round}
+.wf .fwd{fill:var(--seal)}
+.wf .bck{fill:#A9B2A9}
+.wf .halo{fill:none;stroke:var(--seal-2);stroke-width:2.5;opacity:0;transition:opacity .3s}
+.wf .nd.on .halo{opacity:1}
+.wf .nd.on .ttl{fill:var(--seal)}
+.wf .nd:focus{outline:none}
+.wf .nd:focus-visible .halo{opacity:1}
+.legend{display:flex;gap:26px;flex-wrap:wrap;padding:0 22px 18px;font-size:.8rem;
+  color:var(--ink-3);background:var(--card-2);border-bottom:1px solid var(--rule);align-items:center}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:24px;height:2px;background:var(--seal);position:relative;display:block}
+.legend i.b{background:#A9B2A9}
+.legend i::after{content:"";position:absolute;right:-1px;top:-3px;border:4px solid transparent;border-left-color:var(--seal)}
+.legend i.b::after{right:auto;left:-1px;border-left-color:transparent;border-right-color:#A9B2A9}
+
+.prod{margin-top:26px;border:1px solid var(--rule);background:var(--card-2);padding:22px 26px;
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}
+@media(max-width:640px){.prod{grid-template-columns:1fr}}
+.prod .pic{width:34px;height:34px;color:var(--seal)}
+.prod p{margin:0;font-size:.95rem;color:var(--ink-2);max-width:74ch}
+.prod p b{color:var(--ink);font-weight:600}
+.study.wide{grid-column:1/-1}
+
+
+/* ═══ WORKED EXAMPLE ═══ */
+.scalebar{display:flex;gap:0;border:1px solid var(--rule);border-bottom:0;background:var(--card-2)}
+.sc{flex:1;padding:14px 18px;border-right:1px solid var(--rule)}
+.sc:last-child{border-right:0}
+.sc b{display:block;font-family:var(--serif);font-size:1.42rem;line-height:1.1;margin-bottom:2px}
+.sc span{font-size:.79rem;color:var(--ink-3)}
+@media(max-width:700px){.scalebar{flex-wrap:wrap}.sc{flex:1 0 50%;border-bottom:1px solid var(--rule)}}
+
+.topics{display:flex;flex-wrap:wrap;border:1px solid var(--rule);border-bottom:0;background:var(--card-2)}
+.tp{flex:1 1 auto;min-width:158px;text-align:left;background:none;border:0;
+  border-right:1px solid var(--rule);padding:13px 16px;font:inherit;font-size:.85rem;
+  line-height:1.32;color:var(--ink-2);cursor:pointer}
+.tp:last-child{border-right:0}
+.tp:hover{background:var(--card);color:var(--ink)}
+.tp[aria-pressed="true"]{background:var(--paper);color:var(--ink);font-weight:500;box-shadow:inset 0 -2px 0 var(--seal)}
+.tp small{display:block;font-size:.68rem;font-family:var(--mono);color:var(--ink-3);margin-bottom:3px}
+
+.flow{display:grid;grid-template-columns:196px 1fr;border:1px solid var(--rule);background:var(--card);min-height:540px}
+@media(max-width:820px){.flow{grid-template-columns:1fr}}
+.intake{border-right:1px solid var(--rule);background:var(--card-2);position:relative;overflow:hidden}
+@media(max-width:820px){.intake{height:152px;border-right:0;border-bottom:1px solid var(--rule)}}
+.intake::before,.intake::after{content:"";position:absolute;left:0;right:0;height:52px;z-index:3;pointer-events:none}
+.intake::before{top:0;background:linear-gradient(var(--card-2),rgba(250,251,248,0))}
+.intake::after{bottom:0;background:linear-gradient(rgba(250,251,248,0),var(--card-2))}
+.ilabel{position:absolute;top:0;left:0;right:0;z-index:4;padding:11px 16px;font-size:.75rem;
+  color:var(--ink-3);border-bottom:1px solid var(--rule-2);background:var(--card-2)}
+@keyframes flowup{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes flowleft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.streamrail{display:flex;flex-direction:column;gap:11px;padding:44px 16px 0;animation:flowup 32s linear infinite}
+@media(max-width:820px){.streamrail{flex-direction:row;padding:38px 16px 0;animation-name:flowleft;animation-duration:34s}}
+.art{flex:0 0 auto;width:100%;background:#FDFDFB;border:1px solid var(--rule);
+  padding:8px;height:74px;position:relative;overflow:hidden;transition:border-color .4s,box-shadow .4s}
+@media(max-width:820px){.art{width:112px}}
+.art.act{border-color:var(--seal-2);box-shadow:0 0 0 2px var(--seal-tint)}
+.art .lg{position:absolute;top:4px;right:4px;font-family:var(--mono);font-size:.55rem;
+  color:var(--ink-3);border:1px solid var(--rule-2);padding:0 3px;border-radius:1px;background:var(--paper);z-index:2}
+.art .rows{display:flex;flex-direction:column;gap:4px}
+.art .rows i{display:block;height:3px;background:#C9CFC7;border-radius:1px}
+.art .bars{display:flex;align-items:flex-end;gap:4px;height:100%}
+.art .bars i{flex:1;background:#B7C4BC;border-radius:1px 1px 0 0}
+.art .tbl{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.art .tbl i{height:6px;background:#CBD2CA}
+.art .tbl i:nth-child(-n+4){background:#A9B5AD}
+.art.scanart{background:#E6E5DC}
+.art.scanart .rows i{background:#B0B6AD;opacity:.65}
+.art.scanart::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(23,32,31,.08) 0 1px,transparent 1px 3px)}
+
+.answers{display:flex;flex-direction:column;padding:22px 26px 24px}
+@media(max-width:560px){.answers{padding:18px}}
+.qline{font-family:var(--serif);font-size:1.22rem;line-height:1.3;margin-bottom:6px;max-width:46ch}
+.meter{display:flex;align-items:center;gap:12px;font-size:.77rem;color:var(--ink-3);
+  font-family:var(--mono);border-bottom:1px solid var(--rule-2);padding-bottom:13px;margin-bottom:18px}
+.mtrack{flex:1;height:3px;background:var(--rule-2);position:relative;overflow:hidden}
+.mtrack i{position:absolute;inset:0 auto 0 0;width:0;background:var(--seal);display:block}
+.results{flex:1}
+.finding{border-left:2px solid var(--rule);padding-left:15px;margin-bottom:16px}
+.finding.flagged{border-left-color:var(--flag)}
+.finding.ok{border-left-color:var(--seal)}
+.finding p{margin:0 0 7px;font-size:.93rem;line-height:1.5}
+.finding .tag{font-size:.71rem;font-weight:600;color:var(--ink-3);margin-bottom:4px;display:block}
+.finding.flagged .tag{color:var(--flag)}
+.finding.ok .tag{color:var(--seal)}
+.cites{display:flex;flex-wrap:wrap;gap:5px}
+.cite{font-family:var(--mono);font-size:.69rem;padding:2px 7px;border:1px solid var(--rule);
+  background:var(--paper);color:var(--ink-2);border-radius:2px}
+.cite.tr{border-color:#BCC9C1;color:var(--seal)}
+.verdict{border-top:1px solid var(--rule);padding-top:16px;margin-top:auto}
+.vrow{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:11px}
+.vcol span{display:block;font-size:.72rem;color:var(--ink-3);margin-bottom:2px}
+.vcol b{font-family:var(--serif);font-size:1.1rem;font-weight:400}
+.vcol.diff b{color:var(--flag)}
+.verdict p{font-size:.87rem;color:var(--ink-2);margin:0 0 12px;max-width:66ch}
+.vacts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.vbtn{font:inherit;font-size:.83rem;padding:7px 14px;border:1px solid var(--rule);
+  background:var(--card-2);color:var(--ink);cursor:pointer;border-radius:2px}
+.vbtn:hover{border-color:var(--seal);color:var(--seal)}
+.vbtn.on{background:var(--seal);color:#F4F6F2;border-color:var(--seal)}
+.vnote{font-size:.78rem;color:var(--ink-3)}
+.excap{margin-top:12px;font-size:.78rem;color:var(--ink-3)}
+
+/* ═══ CASE STUDIES ═══ */
+.studies{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule-2);border:1px solid var(--rule-2)}
+@media(max-width:860px){.studies{grid-template-columns:1fr}}
+.study{background:var(--card);padding:clamp(24px,3vw,32px);display:flex;flex-direction:column}
+.study .top{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin-bottom:9px}
+.study .org{font-family:var(--mono);font-size:.73rem;color:var(--seal)}
+.study .kind{font-size:.71rem;color:var(--ink-3);border:1px solid var(--rule);padding:1px 8px;border-radius:2px;white-space:nowrap}
+.study h3{font-size:1.2rem;margin-bottom:12px;max-width:30ch}
+.study p{font-size:.92rem;color:var(--ink-2)}
+.study .figs{display:flex;gap:24px;flex-wrap:wrap;margin-top:auto;padding-top:18px;border-top:1px solid var(--rule-2)}
+.study .figs div span{display:block;font-size:.72rem;color:var(--ink-3);margin-bottom:2px}
+.study .figs div b{font-family:var(--serif);font-size:1.28rem;font-weight:400;line-height:1.1}
+
+
+.gov{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-2);
+  border:1px solid var(--rule-2)}
+@media(max-width:940px){.gov{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.gov{grid-template-columns:1fr}}
+.gcell{background:var(--card);padding:22px 22px 24px}
+.gcell h3{font-family:var(--sans);font-size:.97rem;font-weight:600;letter-spacing:0;margin-bottom:7px}
+.gcell p{font-size:.88rem;color:var(--ink-2);margin:0}
+.cta h2{max-width:18ch;margin-bottom:14px}
+.cform{margin-top:26px;max-width:640px}
+.crow{display:flex;gap:16px;flex-wrap:wrap}
+.crow label{flex:1 1 240px}
+.cform label{display:block;font-size:.82rem;color:var(--ink-3);margin-bottom:14px}
+.cform input,.cform textarea{display:block;width:100%;margin-top:6px;font:inherit;font-size:.95rem;
+  color:var(--ink);background:var(--card-2);border:1px solid var(--rule);border-radius:2px;
+  padding:10px 12px;resize:vertical}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:var(--seal);
+  box-shadow:0 0 0 3px var(--seal-tint)}
+.cact{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:4px}
+.cform button{font-family:inherit;cursor:pointer}
+.cstat{font-size:.87rem;color:var(--ink-2)}
+.cstat.ok{color:var(--seal)}
+.cstat.err{color:var(--flag)}
+
+footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
+.fgrid{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:34px}
+@media(max-width:820px){.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+.fcol h4{font-family:var(--sans);font-size:.79rem;font-weight:600;color:var(--ink-3);margin:0 0 14px}
+.fcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.fcol a{font-size:.9rem;color:var(--ink-2);text-decoration:none}
+.fcol a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.fbrand .mark{display:flex;margin-bottom:10px}
+.fbrand p{font-size:.87rem;color:var(--ink-3);max-width:34ch;margin:0}
+.fbase{margin-top:clamp(34px,4vw,52px);padding-top:20px;border-top:1px solid var(--rule-2);
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.82rem;color:var(--ink-3)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .streamrail,.dmark .row{animation:none!important}
+}
+.hide{display:none!important}
+</style>
 </head>
 <body>
 
-    <!-- NAV -->
-    <nav>
-        <a href="#top" class="logo-link">
-            <div class="logo-mark"><img src="Destillo_Logo.png" alt="Destillo"></div>
-            <span class="logo-text">DESTILLO</span>
-        </a>
-        <div class="nav-links">
-            <a href="#use-cases">Solutions</a>
-            <a href="#results">Results</a>
-            <a href="#process">Process</a>
-            <a href="#contact" class="nav-cta">Get in Touch</a>
-        </div>
+<header class="nav">
+  <div class="navin">
+    <a class="mark" href="#top"><svg class="dmark logo" viewBox="4 2 24 28" aria-hidden="true"><defs><clipPath id="dnav"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 3H15C22.2 3 27 8.4 27 16C27 23.6 22.2 29 15 29H5V3ZM11 9V23H14.5C18.2 23 20.6 20.4 20.6 16C20.6 11.6 18.2 9 14.5 9H11Z"/></clipPath></defs><path class="ghost" d="M5 3H15C22.2 3 27 8.4 27 16C27 23.6 22.2 29 15 29H5V3ZM11 9V23H14.5C18.2 23 20.6 20.4 20.6 16C20.6 11.6 18.2 9 14.5 9H11Z" fill-rule="evenodd" clip-rule="evenodd"/><g clip-path="url(#dnav)"><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="3.4" width="7" height="1.4" rx="0.70"/><rect x="32.00" y="3.4" width="7" height="1.4" rx="0.70"/><rect x="8.60" y="3.4" width="4.5" height="1.4" rx="0.70"/><rect x="40.60" y="3.4" width="4.5" height="1.4" rx="0.70"/><rect x="14.70" y="3.4" width="9" height="1.4" rx="0.70"/><rect x="46.70" y="3.4" width="9" height="1.4" rx="0.70"/><rect x="25.30" y="3.4" width="5.5" height="1.4" rx="0.70"/><rect x="57.30" y="3.4" width="5.5" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="6.3" width="5" height="1.4" rx="0.70"/><rect x="32.00" y="6.3" width="5" height="1.4" rx="0.70"/><rect x="6.60" y="6.3" width="10" height="1.4" rx="0.70"/><rect x="38.60" y="6.3" width="10" height="1.4" rx="0.70"/><rect x="18.20" y="6.3" width="4" height="1.4" rx="0.70"/><rect x="50.20" y="6.3" width="4" height="1.4" rx="0.70"/><rect x="23.80" y="6.3" width="7.6" height="1.4" rx="0.70"/><rect x="55.80" y="6.3" width="7.6" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="9.2" width="9" height="1.4" rx="0.70"/><rect x="32.00" y="9.2" width="9" height="1.4" rx="0.70"/><rect x="10.60" y="9.2" width="5" height="1.4" rx="0.70"/><rect x="42.60" y="9.2" width="5" height="1.4" rx="0.70"/><rect x="17.20" y="9.2" width="8" height="1.4" rx="0.70"/><rect x="49.20" y="9.2" width="8" height="1.4" rx="0.70"/><rect x="26.80" y="9.2" width="4.8" height="1.4" rx="0.70"/><rect x="58.80" y="9.2" width="4.8" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:5.6s"><rect x="0.00" y="14.70" width="1.7" height="3.2" rx="0.4"/><rect x="32.00" y="14.70" width="1.7" height="3.2" rx="0.4"/><rect x="2.91" y="13.30" width="1.7" height="4.6" rx="0.4"/><rect x="34.91" y="13.30" width="1.7" height="4.6" rx="0.4"/><rect x="5.82" y="14.00" width="1.7" height="3.9" rx="0.4"/><rect x="37.82" y="14.00" width="1.7" height="3.9" rx="0.4"/><rect x="8.73" y="12.50" width="1.7" height="5.4" rx="0.4"/><rect x="40.73" y="12.50" width="1.7" height="5.4" rx="0.4"/><rect x="11.64" y="13.50" width="1.7" height="4.4" rx="0.4"/><rect x="43.64" y="13.50" width="1.7" height="4.4" rx="0.4"/><rect x="14.55" y="12.10" width="1.7" height="5.8" rx="0.4"/><rect x="46.55" y="12.10" width="1.7" height="5.8" rx="0.4"/><rect x="17.45" y="13.00" width="1.7" height="4.9" rx="0.4"/><rect x="49.45" y="13.00" width="1.7" height="4.9" rx="0.4"/><rect x="20.36" y="14.30" width="1.7" height="3.6" rx="0.4"/><rect x="52.36" y="14.30" width="1.7" height="3.6" rx="0.4"/><rect x="23.27" y="12.80" width="1.7" height="5.1" rx="0.4"/><rect x="55.27" y="12.80" width="1.7" height="5.1" rx="0.4"/><rect x="26.18" y="13.70" width="1.7" height="4.2" rx="0.4"/><rect x="58.18" y="13.70" width="1.7" height="4.2" rx="0.4"/><rect x="29.09" y="12.30" width="1.7" height="5.6" rx="0.4"/><rect x="61.09" y="12.30" width="1.7" height="5.6" rx="0.4"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="19.6" width="6" height="1.4" rx="0.70"/><rect x="32.00" y="19.6" width="6" height="1.4" rx="0.70"/><rect x="7.60" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="39.60" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="17.20" y="19.6" width="5" height="1.4" rx="0.70"/><rect x="49.20" y="19.6" width="5" height="1.4" rx="0.70"/><rect x="23.80" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="55.80" y="19.6" width="8" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="22.5" width="8" height="1.4" rx="0.70"/><rect x="32.00" y="22.5" width="8" height="1.4" rx="0.70"/><rect x="9.60" y="22.5" width="4" height="1.4" rx="0.70"/><rect x="41.60" y="22.5" width="4" height="1.4" rx="0.70"/><rect x="15.20" y="22.5" width="9.5" height="1.4" rx="0.70"/><rect x="47.20" y="22.5" width="9.5" height="1.4" rx="0.70"/><rect x="26.30" y="22.5" width="5" height="1.4" rx="0.70"/><rect x="58.30" y="22.5" width="5" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:7.2s"><path class="spark" d="M0.00 26.90 L5.33 25.20 L10.67 27.70 L16.00 24.80 L21.33 26.50 L26.67 25.40 L32.00 26.90"/><path class="spark" d="M32.00 26.90 L37.33 25.20 L42.67 27.70 L48.00 24.80 L53.33 26.50 L58.67 25.40 L64.00 26.90"/></g></g></svg><span>Destillo</span></a>
+    <nav class="navlinks">
+      <a href="#uses">Applications</a>
+      <a href="#method">Workflow</a>
+      <a href="#example">Worked example</a>
+      <a href="#studies">Case studies</a>
+      <a href="#benchmark">Accuracy</a>
+      <a class="btn" href="mailto:munibz@destillo.io?subject=Destillo%20pilot%20enquiry">Get in touch</a>
     </nav>
+  </div>
+</header>
 
-    <!-- HERO -->
-    <section class="hero" id="top">
-        <div class="hero-content">
-            <h1>Document Intelligence for Development Finance</h1>
-            <p>We turn unstructured investment documents into structured, audit-ready data for DFIs and impact funds — aligned to IRIS+, HIPSO, and LP reporting requirements.</p>
-            <a href="#contact" class="hero-cta">Start a conversation →</a>
+<div id="top" class="hero">
+  <div class="wrap">
+    <h1 class="t"><span>Evidence for Development Finance.</span><svg class="dmark hmark" viewBox="4 2 24 28" aria-hidden="true"><defs><clipPath id="dhero"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 3H15C22.2 3 27 8.4 27 16C27 23.6 22.2 29 15 29H5V3ZM11 9V23H14.5C18.2 23 20.6 20.4 20.6 16C20.6 11.6 18.2 9 14.5 9H11Z"/></clipPath></defs><path class="ghost" d="M5 3H15C22.2 3 27 8.4 27 16C27 23.6 22.2 29 15 29H5V3ZM11 9V23H14.5C18.2 23 20.6 20.4 20.6 16C20.6 11.6 18.2 9 14.5 9H11Z" fill-rule="evenodd" clip-rule="evenodd"/><g clip-path="url(#dhero)"><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="3.4" width="7" height="1.4" rx="0.70"/><rect x="32.00" y="3.4" width="7" height="1.4" rx="0.70"/><rect x="8.60" y="3.4" width="4.5" height="1.4" rx="0.70"/><rect x="40.60" y="3.4" width="4.5" height="1.4" rx="0.70"/><rect x="14.70" y="3.4" width="9" height="1.4" rx="0.70"/><rect x="46.70" y="3.4" width="9" height="1.4" rx="0.70"/><rect x="25.30" y="3.4" width="5.5" height="1.4" rx="0.70"/><rect x="57.30" y="3.4" width="5.5" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="6.3" width="5" height="1.4" rx="0.70"/><rect x="32.00" y="6.3" width="5" height="1.4" rx="0.70"/><rect x="6.60" y="6.3" width="10" height="1.4" rx="0.70"/><rect x="38.60" y="6.3" width="10" height="1.4" rx="0.70"/><rect x="18.20" y="6.3" width="4" height="1.4" rx="0.70"/><rect x="50.20" y="6.3" width="4" height="1.4" rx="0.70"/><rect x="23.80" y="6.3" width="7.6" height="1.4" rx="0.70"/><rect x="55.80" y="6.3" width="7.6" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="9.2" width="9" height="1.4" rx="0.70"/><rect x="32.00" y="9.2" width="9" height="1.4" rx="0.70"/><rect x="10.60" y="9.2" width="5" height="1.4" rx="0.70"/><rect x="42.60" y="9.2" width="5" height="1.4" rx="0.70"/><rect x="17.20" y="9.2" width="8" height="1.4" rx="0.70"/><rect x="49.20" y="9.2" width="8" height="1.4" rx="0.70"/><rect x="26.80" y="9.2" width="4.8" height="1.4" rx="0.70"/><rect x="58.80" y="9.2" width="4.8" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:5.6s"><rect x="0.00" y="14.70" width="1.7" height="3.2" rx="0.4"/><rect x="32.00" y="14.70" width="1.7" height="3.2" rx="0.4"/><rect x="2.91" y="13.30" width="1.7" height="4.6" rx="0.4"/><rect x="34.91" y="13.30" width="1.7" height="4.6" rx="0.4"/><rect x="5.82" y="14.00" width="1.7" height="3.9" rx="0.4"/><rect x="37.82" y="14.00" width="1.7" height="3.9" rx="0.4"/><rect x="8.73" y="12.50" width="1.7" height="5.4" rx="0.4"/><rect x="40.73" y="12.50" width="1.7" height="5.4" rx="0.4"/><rect x="11.64" y="13.50" width="1.7" height="4.4" rx="0.4"/><rect x="43.64" y="13.50" width="1.7" height="4.4" rx="0.4"/><rect x="14.55" y="12.10" width="1.7" height="5.8" rx="0.4"/><rect x="46.55" y="12.10" width="1.7" height="5.8" rx="0.4"/><rect x="17.45" y="13.00" width="1.7" height="4.9" rx="0.4"/><rect x="49.45" y="13.00" width="1.7" height="4.9" rx="0.4"/><rect x="20.36" y="14.30" width="1.7" height="3.6" rx="0.4"/><rect x="52.36" y="14.30" width="1.7" height="3.6" rx="0.4"/><rect x="23.27" y="12.80" width="1.7" height="5.1" rx="0.4"/><rect x="55.27" y="12.80" width="1.7" height="5.1" rx="0.4"/><rect x="26.18" y="13.70" width="1.7" height="4.2" rx="0.4"/><rect x="58.18" y="13.70" width="1.7" height="4.2" rx="0.4"/><rect x="29.09" y="12.30" width="1.7" height="5.6" rx="0.4"/><rect x="61.09" y="12.30" width="1.7" height="5.6" rx="0.4"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="19.6" width="6" height="1.4" rx="0.70"/><rect x="32.00" y="19.6" width="6" height="1.4" rx="0.70"/><rect x="7.60" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="39.60" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="17.20" y="19.6" width="5" height="1.4" rx="0.70"/><rect x="49.20" y="19.6" width="5" height="1.4" rx="0.70"/><rect x="23.80" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="55.80" y="19.6" width="8" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="22.5" width="8" height="1.4" rx="0.70"/><rect x="32.00" y="22.5" width="8" height="1.4" rx="0.70"/><rect x="9.60" y="22.5" width="4" height="1.4" rx="0.70"/><rect x="41.60" y="22.5" width="4" height="1.4" rx="0.70"/><rect x="15.20" y="22.5" width="9.5" height="1.4" rx="0.70"/><rect x="47.20" y="22.5" width="9.5" height="1.4" rx="0.70"/><rect x="26.30" y="22.5" width="5" height="1.4" rx="0.70"/><rect x="58.30" y="22.5" width="5" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:7.2s"><path class="spark" d="M0.00 26.90 L5.33 25.20 L10.67 27.70 L16.00 24.80 L21.33 26.50 L26.67 25.40 L32.00 26.90"/><path class="spark" d="M32.00 26.90 L37.33 25.20 L42.67 27.70 L48.00 24.80 L53.33 26.50 L58.67 25.40 L64.00 26.90"/></g></g></svg></h1>
+    <p class="lede">Development Finance runs on evidence, and most of it sits buried in thousands of
+      PDFs, spreadsheets and old reports. Destillo designs the method, builds the pipeline and
+      delivers structured, benchmarked findings across your whole portfolio. Your evaluators keep the
+      judgment. We do the plumbing.</p>
+
+    <div class="hviz">
+      <div class="hbar">
+        <i></i><i></i><i></i>
+        <em>sector portfolio, 61 operations</em>
+        <span class="hlive"><b></b>reading</span>
+      </div>
+      <div class="hstat">
+        <div><b id="hp">0</b><span>pages read</span></div>
+        <div><b id="hh">0</b><span>guarantee-related references</span></div>
+        <div><b id="hg">0</b><span>climate-related references</span></div>
+        <div class="hlangs"><span>EN</span><span>ES</span><span>FR</span><span>PT</span></div>
+      </div>
+      <div class="hgrid" id="hgrid" aria-hidden="true"></div>
+      <div class="hkey">
+        <span><i class="k-read"></i>page read in full</span>
+        <span><i class="k-hit"></i>guarantee-related passage</span>
+        <span><i class="k-gap"></i>climate-related passage</span>
+        <span class="hnote">Nothing sampled. Nothing rated by the system.</span>
+      </div>
+    </div>
+
+    <div class="vprop">
+      <div><b>3.7x</b><span>more evidence found than a basic LLM setup, on the same document</span></div>
+      <div><b>90%</b><span>less manual analysis time in production deployment</span></div>
+      <div><b>100%</b><span>of pages covered. Nothing sampled, nothing skipped</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APPLICATIONS ══ -->
+<section id="benchmark">
+  <div class="wrap">
+    <div class="shead" style="margin-bottom:26px"><h2>Accuracy is the whole argument</h2></div>
+
+    <div class="cmp">
+      <div class="cmprow">
+        <div class="cmplab">MAI<em>World Bank Group internal AI RAG system</em></div>
+        <div class="cmpbar">
+          <span class="found" style="width:27.3%">9 found</span>
+          <span class="missed" style="width:72.7%">24 missed</span>
         </div>
-        <div class="hero-visual">
-            <div class="hero-card">
-                <!-- MESSY INPUT -->
-                <div class="hero-card-label">What goes in</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1.2rem;">
-                    <div style="border-radius:8px;overflow:hidden;border:1px solid var(--sand-dark);height:120px;position:relative;">
-                        <img src="messy-doc-1.png" alt="Degraded institutional document" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
-                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.6));padding:0.3rem 0.5rem;">
-                            <span style="font-size:0.6rem;font-weight:600;color:white;">French regulatory scan — degraded</span>
-                        </div>
-                    </div>
-                    <div style="border-radius:8px;overflow:hidden;border:1px solid var(--sand-dark);height:120px;position:relative;">
-                        <img src="messy-doc-2.png" alt="Complex technical document" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
-                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.6));padding:0.3rem 0.5rem;">
-                            <span style="font-size:0.6rem;font-weight:600;color:white;">Technical building code — mixed format</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ARROW -->
-                <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.2rem;">
-                    <div style="flex:1;height:1px;background:var(--sand-dark);"></div>
-                    <div style="background:var(--accent);color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;"><polyline points="6 9 12 15 18 9"/></svg>
-                    </div>
-                    <div style="flex:1;height:1px;background:var(--sand-dark);"></div>
-                </div>
-
-                <!-- CLEAN OUTPUT -->
-                <div class="hero-card-label" style="color:var(--accent);">What comes out</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
-                    <div style="background:var(--accent-pale);border-radius:10px;padding:1rem;text-align:center;">
-                        <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:var(--accent);">$4.2B</div>
-                        <div style="font-size:0.68rem;color:var(--slate);margin-top:0.15rem;">Total guarantees issued</div>
-                    </div>
-                    <div style="background:var(--accent-pale);border-radius:10px;padding:1rem;text-align:center;">
-                        <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:var(--accent);">87%</div>
-                        <div style="font-size:0.68rem;color:var(--slate);margin-top:0.15rem;">Projects meeting targets</div>
-                    </div>
-                    <div style="background:var(--accent-pale);border-radius:10px;padding:1rem;text-align:center;">
-                        <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:var(--accent);">2.1M</div>
-                        <div style="font-size:0.68rem;color:var(--slate);margin-top:0.15rem;">Lives impacted</div>
-                    </div>
-                    <div style="background:var(--accent-pale);border-radius:10px;padding:1rem;text-align:center;">
-                        <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:var(--accent);">34</div>
-                        <div style="font-size:0.68rem;color:var(--slate);margin-top:0.15rem;">Countries covered</div>
-                    </div>
-                </div>
-            </div>
+        <div class="cmpval">27%<em>recall</em></div>
+      </div>
+      <div class="cmprow">
+        <div class="cmplab">Destillo pipeline<em>hybrid retrieval, then classification</em></div>
+        <div class="cmpbar">
+          <span class="found" style="width:99%">33 found</span>
+          <span class="missed" style="width:1%"></span>
         </div>
-    </section>
+        <div class="cmpval">99%<em>recall</em></div>
+      </div>
+      <div class="cmpfoot">
+        <span><i style="background:var(--seal)"></i>activities found and verified</span>
+        <span><i style="background:var(--flag-tint);border:1px solid #DCC7A6"></i>activities missed</span>
+      </div>
+    </div>
 
-    <!-- CREDENTIALS -->
-    <section class="credentials">
-        <div class="credentials-inner">
-            <span class="credential-label">Built on experience at</span>
-            <span class="credential-item"><span class="credential-dot"></span>World Bank Group — IEG</span>
-            <span class="credential-item"><span class="credential-dot"></span>Asian Development Bank</span>
-            <span class="credential-item"><span class="credential-dot"></span>IDB · AfDB · AIIB</span>
+    <p class="small" style="margin-top:16px;max-width:86ch">Measured against MAI, the World Bank
+      Group's internal AI RAG system, on the same project appraisal document. 33 verified resilient
+      infrastructure activities in the document.</p>
+  </div>
+</section>
+
+<section id="uses">
+  <div class="wrap">
+    <div class="shead"><h2>Applications</h2>
+      <p class="lede">Some of the work we have already done with evaluation, results and outcomes
+        teams.</p></div>
+    <div class="uses">
+      <div class="use">
+        <svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 4h11l5 5v19H8z"/><path d="M19 4v5h5"/><path d="M11.5 18l2.5 2.5 5-5.5"/><path d="M12 13h8"/></svg>
+        <h3>Validating self-evaluation</h3>
+        <p>Check what a completion report claims against what the record actually shows. Divergences go to the validator.</p>
+      </div>
+
+      <div class="use">
+        <svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 21a12 12 0 0124 0"/><path d="M16 21l6.5-6.5" stroke-linecap="round"/><circle cx="16" cy="21" r="1.6" fill="currentColor" stroke="none"/><path d="M4 21h3M25 21h3M7.6 12.6l2 2"/></svg>
+        <h3>Quality of M&amp;E systems</h3>
+        <p>See whether indicators have baselines, named data sources, and the endline evidence that was promised.</p>
+      </div>
+
+      <div class="use">
+        <svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M16 4l11 5-11 5-11-5 11-5z"/><path d="M5 15l11 5 11-5"/><path d="M5 21l11 5 11-5"/></svg>
+        <h3>Portfolio and sector synthesis</h3>
+        <p>Ask one question across hundreds of operations. Get an answer for each, traced to the paragraph.</p>
+      </div>
+
+      <div class="use">
+        <svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 26h24"/><path d="M6 22h5v-5H6zM13.5 22h5v-9h-5zM21 22h5v-14h-5z"/><circle cx="8.5" cy="12" r="2"/><circle cx="16" cy="8" r="2"/><circle cx="23.5" cy="4.5" r="2"/></svg>
+        <h3>Outcomes-based contracting</h3>
+        <p>Trace outcome metrics through contract, baseline and provider records. Check payment triggers against independent evidence.</p>
+        <span class="tagline">Outcomes</span>
+      </div>
+
+      <div class="use">
+        <svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 8h11M5 13h11M5 18h7"/><circle cx="21" cy="19" r="6"/><path d="M25.4 23.4L29 27"/></svg>
+        <h3>Lessons and precedent</h3>
+        <p>Find what the institution already concluded on this design, sector and country, before the next appraisal.</p>
+      </div>
+
+      <div class="use">
+        <svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="16" cy="16" r="12"/><path d="M4 16h24"/><path d="M16 4c3.4 3.6 5.2 7.6 5.2 12S19.4 24.4 16 28c-3.4-3.6-5.2-7.6-5.2-12S12.6 7.6 16 4z"/></svg>
+        <h3>Multilingual archives</h3>
+        <p>Read Spanish, French and Portuguese filings alongside English, including decades of scans. Citations point at the original.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ METHOD ══ -->
+<section id="method">
+  <div class="wrap">
+    <div class="shead"><h2>Keeping verification at the centre</h2>
+      <p class="lede">A typical architecture looks like this. A two-way road with a roundabout at
+        every stage. The machine finds and drafts, a person checks, and any stage can go back. The
+        specifics change with the task. The shape does not.</p></div>
+
+    <div class="method" id="pipe">
+      <div class="wfwrap"><svg class="wf" id="wf" viewBox="0 0 1000 470" role="img"
+        aria-label="Five-stage verification workflow"></svg>
+        <ol class="wfsteps" id="wfsteps"></ol></div>
+      <div class="legend">
+        <span><i></i> Moving forward</span>
+        <span><i class="b"></i> Looping back</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1D4A3B"
+          stroke-width="2.6" stroke-linecap="round"><path d="M20 12a8 8 0 11-3.2-6.4"/><path d="M17 3v4h-4"/></svg>
+          Revisit earlier decisions</span>
+      </div>
+      <p class="wfcap" id="wfcap"></p>
+      </div>
+    </div>
+
+    <div class="prod">
+      <svg class="pic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M16 3l11 6v14l-11 6-11-6V9z"/><path d="M5 9l11 6 11-6M16 15v14"/></svg>
+      <p><b>These are task-specific systems, not a product you log into.</b> Each pipeline is built
+        around one institution's questions, rating criteria and document conventions. We specify
+        those questions with your team, test the pipeline against work the office has already
+        completed, and put it into production in your environment. Your evaluators run it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORKED EXAMPLE ══ -->
+<section id="example">
+  <div class="wrap">
+    <div class="shead"><h2>Ask a portfolio a question</h2>
+      <p class="lede">One question, applied to a whole sector portfolio instead of the four
+        operations someone had time to read.</p></div>
+
+    <div class="scalebar">
+      <div class="sc"><b>61</b><span>operations</span></div>
+      <div class="sc"><b>24,812</b><span>pages read in full</span></div>
+      <div class="sc"><b>4</b><span>filing languages</span></div>
+      <div class="sc"><b>3,140</b><span>scanned pages, no text layer</span></div>
+    </div>
+
+    <div class="topics" role="group" aria-label="Choose a topic">
+      <button class="tp" data-q="0" aria-pressed="false"><small>M&amp;E quality</small>Are the indicators measurable, and was the promised evidence collected?</button>
+      <button class="tp" data-q="1" aria-pressed="false"><small>Outcomes</small>Were the results-framework targets met, and on what evidence?</button>
+      <button class="tp" data-q="2" aria-pressed="false"><small>Payments</small>Which outcome payment triggers are independently verifiable?</button>
+      <button class="tp" data-q="3" aria-pressed="false"><small>Efficiency</small>Does the recalculated economic return hold up?</button>
+      <button class="tp" data-q="4" aria-pressed="false"><small>Portfolio</small>Which lessons recur across the sector portfolio?</button>
+    </div>
+
+    <div class="flow">
+      <aside class="intake">
+        <div class="ilabel">Sources arriving</div>
+        <div class="streamrail" id="stream"></div>
+      </aside>
+      <div class="answers">
+        <div class="qline" id="qline">Select a topic to run it across all 61 operations.</div>
+        <div class="meter"><span id="mtext">idle</span><span class="mtrack"><i id="mfill"></i></span></div>
+        <div class="results" id="results">
+          <p class="lede" style="font-size:1rem">Every page is read, including the scanned annexes and
+            the Spanish and French filings. Findings come back attached to the paragraph, table cell
+            or survey field they came from.</p>
+          <p class="small">A run at 50,000 pages works the same way as a run at 250. Cost and time
+            scale with the corpus. The method does not change.</p>
         </div>
-    </section>
+        <div class="verdict hide" id="verdict"></div>
+      </div>
+    </div>
+    <p class="excap">Synthetic portfolio constructed for illustration. No client material is shown.
+      Vocabulary generalised across MDB and DFI practice.</p>
+  </div>
+</section>
 
-    <!-- MESSY DOCS SECTION -->
-    <section class="messy-docs">
-        <div class="section-label">Built for the worst documents</div>
-        <div class="messy-docs-grid">
-            <div class="messy-docs-visual">
-                <div class="messy-doc-item">
-                    <div class="messy-doc-icon">📠</div>
-                    <h4>Degraded Scans</h4>
-                    <p>Faded faxes, low-res photocopies, water-damaged records from decades of institutional archiving</p>
-                </div>
-                <div class="messy-doc-item">
-                    <div class="messy-doc-icon">📂</div>
-                    <h4>Inconsistent Formats</h4>
-                    <p>Templates that changed every 5 years, merged institutions, mixed PDF standards across eras</p>
-                </div>
-                <div class="messy-doc-item">
-                    <div class="messy-doc-icon">🌐</div>
-                    <h4>Multi-language Docs</h4>
-                    <p>Mixed-language project documents spanning 30+ countries, scripts, and regional reporting conventions</p>
-                </div>
-                <div class="messy-doc-item">
-                    <div class="messy-doc-icon">🗂️</div>
-                    <h4>Heterogeneous Portfolios</h4>
-                    <p>Every portfolio company reports differently — different metrics, formats, naming conventions, and data quality</p>
-                </div>
-            </div>
-            <div class="messy-docs-content">
-                <h2>Your hardest documents are our speciality</h2>
-                <p>Generic OCR and off-the-shelf AI tools fail on the documents that matter most — scanned project appraisals from the 1990s, faxed compliance reports, multilingual evaluation documents with inconsistent formatting, and portfolio reports where every company uses a different template.</p>
-                <p>Our multi-agent system uses specialized vision models, context-aware extraction, and confidence scoring to handle documents that other tools simply cannot process — including poor-quality scans and handwritten annotations. Every output is audit-ready with full provenance tracking.</p>
-            </div>
+<!-- ══ CASE STUDIES ══ -->
+<section id="studies">
+  <div class="wrap">
+    <div class="shead"><h2>Case studies</h2>
+      <p class="lede">Destillo grew out of years spent building machine learning and AI systems
+        inside multilateral development banks, including the World Bank Group and the Asian
+        Development Bank. Five of those engagements are below, each run on real institutional
+        material at portfolio scale.</p></div>
+    <div class="studies">
+
+      <article class="study">
+        <div class="top"><span class="org">Asian Development Bank · IED</span><span class="kind">M&amp;E quality</span></div>
+        <h3>Quality of M&amp;E systems across small island developing states</h3>
+        <p>Assessing how well monitoring and evaluation systems were designed and used across
+          operations in small island developing states, where thin statistical capacity and small
+          sample sizes make results reporting hardest to verify.</p>
+        <p>Twenty evaluation questions were applied to every page of the corpus. Baseline presence,
+          indicator measurability, data source specification, endline collection and sixteen others.
+          The result is a comparable assessment per project rather than a narrative impression across
+          the group.</p>
+        <div class="figs">
+          <div><span>Projects</span><b>225</b></div>
+          <div><span>Documents</span><b>750</b></div>
+          <div><span>Pages</span><b>50,000</b></div>
+          <div><span>Questions</span><b>20</b></div>
         </div>
-    </section>
+      </article>
 
-    <!-- USE CASES -->
-    <section class="use-cases" id="use-cases">
-        <div class="section-label">Solutions</div>
-        <h2 class="section-title">What we automate</h2>
-        <p class="section-subtitle">The same document intelligence systems we built inside the World Bank and ADB — now available to your institution.</p>
-
-        <div class="use-case-grid">
-            <div class="use-case-card">
-                <div class="use-case-icon">📊</div>
-                <h3>Portfolio Monitoring & LP Reporting</h3>
-                <p>Automate data extraction from portfolio company reports, annual monitoring surveys, and ESG assessments. Aggregate across fund-level metrics aligned to your LP-specific templates.</p>
-                <div class="use-case-tags">
-                    <span class="use-case-tag">FIIRM</span>
-                    <span class="use-case-tag">IRIS+</span>
-                    <span class="use-case-tag">HIPSO</span>
-                    <span class="use-case-tag">iLevel</span>
-                </div>
-            </div>
-            <div class="use-case-card">
-                <div class="use-case-icon">🔍</div>
-                <h3>Due Diligence Document Processing</h3>
-                <p>Extract structured data from project appraisals, investment memos, compliance documents, and historical records. Reduce weeks of manual review to hours.</p>
-                <div class="use-case-tags">
-                    <span class="use-case-tag">IFC Performance Standards</span>
-                    <span class="use-case-tag">SASB</span>
-                </div>
-            </div>
-            <div class="use-case-card">
-                <div class="use-case-icon">📋</div>
-                <h3>Evaluation & M&E</h3>
-                <p>Process completion reports, results frameworks, and evaluation documents at scale. Built for the heterogeneous formats that span decades of institutional reporting.</p>
-                <div class="use-case-tags">
-                    <span class="use-case-tag">OPIM</span>
-                    <span class="use-case-tag">Results Frameworks</span>
-                </div>
-            </div>
-            <div class="use-case-card">
-                <div class="use-case-icon">🌍</div>
-                <h3>Cross-Portfolio Impact Analysis</h3>
-                <p>Synthesize impact data across portfolio companies, geographies, and sectors. Turn fragmented reporting into decision-grade insights for investment committees.</p>
-                <div class="use-case-tags">
-                    <span class="use-case-tag">SDG Alignment</span>
-                    <span class="use-case-tag">Impact Reporting</span>
-                </div>
-            </div>
+      <article class="study">
+        <div class="top"><span class="org">World Bank Group · IEG</span><span class="kind">Evaluation</span></div>
+        <h3>Guarantee instrument evaluation</h3>
+        <p>An evaluation of the guarantee portfolio required consistent extraction from a document
+          set spanning instruments, regions and two decades of changing templates. Twenty-seven
+          distinct questions were applied across all 25,000 pages, with no sampling.</p>
+        <p>The methodology was benchmarked head to head against manual review of the same documents.
+          The evaluation team received portfolio-wide coverage, plus exact figures on where the
+          pipeline agreed with reviewers and where it did not. That reporting is what makes an
+          accuracy claim usable rather than promotional.</p>
+        <div class="figs">
+          <div><span>Documents</span><b>241</b></div>
+          <div><span>Pages</span><b>25,000</b></div>
+          <div><span>Questions</span><b>27</b></div>
+          <div><span>Sampled</span><b>None</b></div>
         </div>
-    </section>
+      </article>
 
-    <!-- RESULTS -->
-    <section class="results" id="results">
-        <div class="results-inner">
-            <div class="section-label">Proven Results</div>
-            <h2 class="section-title">Built inside the institutions, proven on real documents</h2>
-            <p class="section-subtitle">Systems designed and validated at the World Bank Group and Asian Development Bank.</p>
-
-            <div class="results-grid">
-                <div class="result-card">
-                    <div class="result-number">241</div>
-                    <div class="result-description">WBG guarantee documents processed with AI methodology that outperformed human reviewers in accuracy</div>
-                    <div class="result-source">World Bank IEG Evaluation</div>
-                </div>
-                <div class="result-card">
-                    <div class="result-number">700+</div>
-                    <div class="result-description">Heterogeneous project PDFs analyzed through hierarchical RAG system for M&E evaluation</div>
-                    <div class="result-source">Asian Development Bank</div>
-                </div>
-                <div class="result-card">
-                    <div class="result-number">10,000+</div>
-                    <div class="result-description">MDB project documents across IDB, AfDB, ADB, and WBG portfolios processed through automated pipeline</div>
-                    <div class="result-source">World Bank Group — IEG</div>
-                </div>
-                <div class="result-card">
-                    <div class="result-number">90%</div>
-                    <div class="result-description">Reduction in manual analysis time while maintaining audit-level accuracy across all document types</div>
-                    <div class="result-source">Production deployment</div>
-                </div>
-            </div>
+      <article class="study">
+        <div class="top"><span class="org">Asian Development Bank</span><span class="kind">Classification</span></div>
+        <h3>Finding digital projects</h3>
+        <p>Digital work is rarely labelled as such. It sits inside transport, health and public
+          sector operations as a component, so the portfolio cannot be identified from project titles
+          or sector codes alone.</p>
+        <p>All 5,500 documents were classified for whether the project belonged in the digital
+          portfolio, with the decision and its basis recorded per document, so the inclusion boundary
+          could be reviewed and defended rather than assumed.</p>
+        <div class="figs">
+          <div><span>Documents classified</span><b>5,500</b></div>
+          <div><span>Coverage</span><b>100%</b></div>
+          <div><span>Decision record</span><b>Per document</b></div>
         </div>
-    </section>
+      </article>
 
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works" id="process">
-        <div class="section-label">Process</div>
-        <h2 class="section-title">How we work with you</h2>
-        <p class="section-subtitle">We start small, prove value fast, and scale from there.</p>
-
-        <div class="steps">
-            <div class="step">
-                <div class="step-icon-wrap step-1">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#3B6FD4" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                </div>
-                <div class="step-badge">STEP 01</div>
-                <h3>Understand Your Workflow</h3>
-                <p>We map your document types, reporting requirements, and current pain points. Every engagement is tailored to your institutional needs.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon-wrap step-2">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D6F" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                </div>
-                <div class="step-badge">STEP 02</div>
-                <h3>Pilot on Real Documents</h3>
-                <p>We run a paid proof of concept on a sample of your actual documents. You see results within weeks, not months. Typical pilot: 50–100 documents.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon-wrap step-3">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#D4793A" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                </div>
-                <div class="step-badge">STEP 03</div>
-                <h3>Validate & Refine</h3>
-                <p>Your team reviews outputs against manual benchmarks. We iterate on accuracy, formatting, and integration with your existing systems.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon-wrap step-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#7C4FD4" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                </div>
-                <div class="step-badge">STEP 04</div>
-                <h3>Scale Across Portfolio</h3>
-                <p>Deploy across your full document pipeline. Annual monitoring, LP reporting, due diligence — the system handles extraction so your team focuses on analysis.</p>
-            </div>
+      <article class="study">
+        <div class="top"><span class="org">World Bank Group</span><span class="kind">Replicability</span></div>
+        <h3>Replications across MDBs</h3>
+        <p>A study of replicability across development finance portfolios: which project designs
+          recur, which correlate with results, and which are specific to their context.</p>
+        <p>Ten thousand projects were assembled from more than ten data sources across five
+          institutions, including EBRD. Embedding-based similarity identified comparable operations
+          across institutional boundaries, and surfaced correlations that keyword matching on five
+          different taxonomies could not.</p>
+        <div class="figs">
+          <div><span>Projects</span><b>10,000</b></div>
+          <div><span>Data sources</span><b>10+</b></div>
+          <div><span>Institutions</span><b>5, incl. EBRD</b></div>
         </div>
-    </section>
+      </article>
 
-    <!-- STANDARDS -->
-    <section class="standards">
-        <div class="standards-inner">
-            <div class="standards-title">Aligned to industry standards</div>
-            <div class="standards-logos">
-                <span class="standard-badge">IRIS+</span>
-                <span class="standard-badge">HIPSO</span>
-                <span class="standard-badge">OPIM</span>
-                <span class="standard-badge">IFC Performance Standards</span>
-                <span class="standard-badge">SASB</span>
-                <span class="standard-badge">SDG Framework</span>
-            </div>
+      <article class="study wide">
+        <div class="top"><span class="org">World Bank Group · GFDRR</span><span class="kind">Compliance · Multilingual</span></div>
+        <h3>Building compliance assessed against a structural checklist</h3>
+        <p>Building documentation had to be assessed against a structural safety and compliance
+          checklist, across a document set filed in several languages. More than fifty structural
+          questions were built into the pipeline, each returning an assessment traceable to the
+          drawing, specification or report clause it came from.</p>
+        <p>Translation was built into the pipeline rather than bolted on. Non-English submissions
+          were assessed against the same checklist as English ones, and the citation kept pointing at
+          the original text. This is the engagement the multilingual capability came out of.</p>
+        <div class="figs">
+          <div><span>Structural questions</span><b>50+</b></div>
+          <div><span>Translation</span><b>In-pipeline</b></div>
+          <div><span>Citations</span><b>Source language</b></div>
         </div>
-    </section>
+      </article>
 
-    <!-- SECURITY -->
-    <section class="security">
-        <div class="section-label">Security</div>
-        <h2 class="section-title">Enterprise-grade data protection</h2>
-        <p class="section-subtitle">We understand the sensitivity of institutional and investment documents.</p>
+    </div>
+    <p class="small" style="margin-top:16px;max-width:78ch">Describes work delivered by Destillo and
+      its founder. Not an endorsement by any institution; no confidential material is reproduced here.</p>
+  </div>
+</section>
 
-        <div class="security-grid">
-            <div class="security-item">
-                <div class="security-icon">🔒</div>
-                <h4>WBG Security Standards</h4>
-                <p>Built to comply with World Bank Group information security requirements for contractors (AMS 6.20)</p>
-            </div>
-            <div class="security-item">
-                <div class="security-icon">🛡️</div>
-                <h4>ISO 27001 Aligned</h4>
-                <p>Information security management aligned to ISO/IEC 27001 and NIST Cybersecurity Framework</p>
-            </div>
-            <div class="security-item">
-                <div class="security-icon">🗑️</div>
-                <h4>Zero Retention</h4>
-                <p>All institutional documents purged after processing. No data stored beyond engagement scope.</p>
-            </div>
-            <div class="security-item">
-                <div class="security-icon">📋</div>
-                <h4>Full Audit Trail</h4>
-                <p>Comprehensive logging of every extraction step. Audit-ready for OPIM verification and LP due diligence.</p>
-            </div>
-        </div>
-    </section>
+<!-- ══ BENCHMARK ══ -->
+<!-- ══ HANDLING ══ -->
+<section id="handling">
+  <div class="wrap">
+    <div class="shead"><h2>Independence and data handling</h2>
+      <p class="lede">The questions an AI governance review will ask, answered before the first meeting.</p></div>
+    <div class="gov">
+      <div class="gcell"><h3>GDPR compliant</h3><p>Personal data is handled under GDPR, with processing agreements and data subject rights set in the engagement terms.</p></div>
+      <div class="gcell"><h3>Institutional AI governance</h3><p>We comply with the AI governance frameworks of each institution we work with.</p></div>
+      <div class="gcell"><h3>ISO 27001 aligned</h3><p>Aligned to ISO/IEC 27001 and the NIST Cybersecurity Framework.</p></div>
+      <div class="gcell"><h3>Deploys in your tenancy</h3><p>The pipeline runs inside your own cloud environment where the engagement requires it.</p></div>
+      <div class="gcell"><h3>Zero retention</h3><p>Documents are purged after processing. Nothing is kept beyond engagement scope, and nothing trains a model.</p></div>
+      <div class="gcell"><h3>Full audit trail</h3><p>Every retrieved passage, proposed finding and human override is logged and reconstructable.</p></div>
+    </div>
+    <p class="small" style="margin-top:22px">Outputs map to IRIS+, HIPSO, OPIM, IFC Performance
+      Standards, SASB and SDG reporting where required.</p>
+  </div>
+</section>
 
-    <!-- CTA -->
-    <section class="cta-section" id="contact">
-        <h2>Let's start with a conversation</h2>
-        <p>Tell us about your document challenges. We'll show you what's possible.</p>
-        <a href="/cdn-cgi/l/email-protection#7e130b10171c043e1a1b0d0a17121211501711" class="cta-email"><span class="__cf_email__" data-cfemail="89e4fce7e0ebf3c9edecfafde0e5e5e6a7e0e6">[email&#160;protected]</span> →</a>
-        <div class="cta-direct">
-            Or connect on <a href="https://www.linkedin.com/in/munibqasimzia/" target="_blank">LinkedIn</a>
-        </div>
-    </section>
+<section class="cta" id="contact">
+  <div class="wrap">
+    <h2>Start with a pilot today.</h2>
+    <p class="lede">Pick a document set and tell us the questions that matter. Book a free 30 minute
+      call to get started.</p>
+    <form class="cform" id="cform" novalidate>
+      <div class="crow">
+        <label>Name<input name="name" type="text" autocomplete="name" required></label>
+        <label>Work email<input name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <div class="crow">
+        <label>Institution<input name="institution" type="text" autocomplete="organization"></label>
+      </div>
+      <label class="cfull">What would you like to run it on?<textarea name="message" rows="3"></textarea></label>
+      <div class="cact">
+        <button class="btn lg" type="submit">Get in touch</button>
+        <span class="cstat" id="cstat"></span>
+      </div>
+    </form>
+  </div>
+</section>
 
-    <!-- F
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fcol fbrand">
+        <span class="mark"><svg class="dmark logo" viewBox="4 2 24 28" aria-hidden="true"><defs><clipPath id="dfoot"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 3H15C22.2 3 27 8.4 27 16C27 23.6 22.2 29 15 29H5V3ZM11 9V23H14.5C18.2 23 20.6 20.4 20.6 16C20.6 11.6 18.2 9 14.5 9H11Z"/></clipPath></defs><path class="ghost" d="M5 3H15C22.2 3 27 8.4 27 16C27 23.6 22.2 29 15 29H5V3ZM11 9V23H14.5C18.2 23 20.6 20.4 20.6 16C20.6 11.6 18.2 9 14.5 9H11Z" fill-rule="evenodd" clip-rule="evenodd"/><g clip-path="url(#dfoot)"><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="3.4" width="7" height="1.4" rx="0.70"/><rect x="32.00" y="3.4" width="7" height="1.4" rx="0.70"/><rect x="8.60" y="3.4" width="4.5" height="1.4" rx="0.70"/><rect x="40.60" y="3.4" width="4.5" height="1.4" rx="0.70"/><rect x="14.70" y="3.4" width="9" height="1.4" rx="0.70"/><rect x="46.70" y="3.4" width="9" height="1.4" rx="0.70"/><rect x="25.30" y="3.4" width="5.5" height="1.4" rx="0.70"/><rect x="57.30" y="3.4" width="5.5" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="6.3" width="5" height="1.4" rx="0.70"/><rect x="32.00" y="6.3" width="5" height="1.4" rx="0.70"/><rect x="6.60" y="6.3" width="10" height="1.4" rx="0.70"/><rect x="38.60" y="6.3" width="10" height="1.4" rx="0.70"/><rect x="18.20" y="6.3" width="4" height="1.4" rx="0.70"/><rect x="50.20" y="6.3" width="4" height="1.4" rx="0.70"/><rect x="23.80" y="6.3" width="7.6" height="1.4" rx="0.70"/><rect x="55.80" y="6.3" width="7.6" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="9.2" width="9" height="1.4" rx="0.70"/><rect x="32.00" y="9.2" width="9" height="1.4" rx="0.70"/><rect x="10.60" y="9.2" width="5" height="1.4" rx="0.70"/><rect x="42.60" y="9.2" width="5" height="1.4" rx="0.70"/><rect x="17.20" y="9.2" width="8" height="1.4" rx="0.70"/><rect x="49.20" y="9.2" width="8" height="1.4" rx="0.70"/><rect x="26.80" y="9.2" width="4.8" height="1.4" rx="0.70"/><rect x="58.80" y="9.2" width="4.8" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:5.6s"><rect x="0.00" y="14.70" width="1.7" height="3.2" rx="0.4"/><rect x="32.00" y="14.70" width="1.7" height="3.2" rx="0.4"/><rect x="2.91" y="13.30" width="1.7" height="4.6" rx="0.4"/><rect x="34.91" y="13.30" width="1.7" height="4.6" rx="0.4"/><rect x="5.82" y="14.00" width="1.7" height="3.9" rx="0.4"/><rect x="37.82" y="14.00" width="1.7" height="3.9" rx="0.4"/><rect x="8.73" y="12.50" width="1.7" height="5.4" rx="0.4"/><rect x="40.73" y="12.50" width="1.7" height="5.4" rx="0.4"/><rect x="11.64" y="13.50" width="1.7" height="4.4" rx="0.4"/><rect x="43.64" y="13.50" width="1.7" height="4.4" rx="0.4"/><rect x="14.55" y="12.10" width="1.7" height="5.8" rx="0.4"/><rect x="46.55" y="12.10" width="1.7" height="5.8" rx="0.4"/><rect x="17.45" y="13.00" width="1.7" height="4.9" rx="0.4"/><rect x="49.45" y="13.00" width="1.7" height="4.9" rx="0.4"/><rect x="20.36" y="14.30" width="1.7" height="3.6" rx="0.4"/><rect x="52.36" y="14.30" width="1.7" height="3.6" rx="0.4"/><rect x="23.27" y="12.80" width="1.7" height="5.1" rx="0.4"/><rect x="55.27" y="12.80" width="1.7" height="5.1" rx="0.4"/><rect x="26.18" y="13.70" width="1.7" height="4.2" rx="0.4"/><rect x="58.18" y="13.70" width="1.7" height="4.2" rx="0.4"/><rect x="29.09" y="12.30" width="1.7" height="5.6" rx="0.4"/><rect x="61.09" y="12.30" width="1.7" height="5.6" rx="0.4"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="19.6" width="6" height="1.4" rx="0.70"/><rect x="32.00" y="19.6" width="6" height="1.4" rx="0.70"/><rect x="7.60" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="39.60" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="17.20" y="19.6" width="5" height="1.4" rx="0.70"/><rect x="49.20" y="19.6" width="5" height="1.4" rx="0.70"/><rect x="23.80" y="19.6" width="8" height="1.4" rx="0.70"/><rect x="55.80" y="19.6" width="8" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:4.0s"><rect x="0.00" y="22.5" width="8" height="1.4" rx="0.70"/><rect x="32.00" y="22.5" width="8" height="1.4" rx="0.70"/><rect x="9.60" y="22.5" width="4" height="1.4" rx="0.70"/><rect x="41.60" y="22.5" width="4" height="1.4" rx="0.70"/><rect x="15.20" y="22.5" width="9.5" height="1.4" rx="0.70"/><rect x="47.20" y="22.5" width="9.5" height="1.4" rx="0.70"/><rect x="26.30" y="22.5" width="5" height="1.4" rx="0.70"/><rect x="58.30" y="22.5" width="5" height="1.4" rx="0.70"/></g><g class="row" style="animation-duration:7.2s"><path class="spark" d="M0.00 26.90 L5.33 25.20 L10.67 27.70 L16.00 24.80 L21.33 26.50 L26.67 25.40 L32.00 26.90"/><path class="spark" d="M32.00 26.90 L37.33 25.20 L42.67 27.70 L48.00 24.80 L53.33 26.50 L58.67 25.40 L64.00 26.90"/></g></g></svg><span>Destillo</span></span>
+        <p>Evidence for development finance. For evaluation departments, results teams, outcomes
+          commissioners and policy researchers.</p>
+      </div>
+      <div class="fcol">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#uses">Applications</a></li>
+          <li><a href="#method">Workflow</a></li>
+          <li><a href="#example">Worked example</a></li>
+          <li><a href="#benchmark">Accuracy</a></li>
+          <li><a href="#handling">Data handling</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#studies">Case studies</a></li>
+          <li><a href="mailto:munibz@destillo.io?subject=Careers%20at%20Destillo">Careers</a></li>
+          <li><a href="mailto:munibz@destillo.io">Contact</a></li>
+          <li><a href="https://www.linkedin.com/company/destilloai">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms of use</a></li>
+          <li><a href="#handling">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbase">
+      <span>Destillo AI Inc. · Canadian federal corporation</span>
+      <span>© 2026 Destillo AI Inc.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ─── hero visual: live read of a portfolio ─── */
+const HGRID=document.getElementById("hgrid"),
+      HP=document.getElementById("hp"),HH=document.getElementById("hh"),HG=document.getElementById("hg");
+if(HGRID){
+  const N=16, PAGES=24812, GUAR=800, CLIM=300;
+  const KINDS=["text","text","table","chart","scan","text","table","text","scan","line","text","table"];
+  const LANGS={4:"FR",9:"ES",14:"PT",22:"FR",31:"ES",40:"FR"};
+  const cellsH=[];
+  for(let i=0;i<N;i++){
+    const k=KINDS[i%KINDS.length];
+    const e=document.createElement("div");
+    e.className="pg"+(k==="scan"?" scan":"");
+    e.dataset.base=e.className;
+    if(k==="table"){
+      const t=document.createElement("div");t.className="tb";
+      for(let j=0;j<12;j++)t.appendChild(document.createElement("i"));
+      e.appendChild(document.createElement("i"));e.appendChild(t);
+    } else if(k==="chart"){
+      const b=document.createElement("div");b.className="br";
+      [60,88,42,95,55,72].forEach(h=>{const q=document.createElement("i");q.style.height=h+"%";b.appendChild(q);});
+      e.appendChild(document.createElement("i"));e.appendChild(b);
+    } else if(k==="line"){
+      const q=document.createElement("i");q.className="m";e.appendChild(q);
+      e.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 60 34" fill="none" stroke="#7FA592" stroke-width="2.4"><polyline points="2,29 13,18 24,23 35,9 46,14 58,5"/></svg>');
+    } else {
+      ["","m","","s","m","","s"].forEach(c=>{const q=document.createElement("i");if(c)q.className=c;e.appendChild(q);});
+    }
+    const mk=document.createElement("span");mk.className="mk";e.appendChild(mk);
+    if(LANGS[i]){const lg=document.createElement("span");lg.className="lg";lg.textContent=LANGS[i];e.appendChild(lg);}
+    HGRID.appendChild(e);cellsH.push(e);
+  }
+  const cls=i=>(i===3||i===9||i===13)?"hit":(i===6||i===11)?"gap":"";
+
+  if(reduced){
+    cellsH.forEach((c,i)=>{c.className=c.dataset.base+" read "+cls(i);});
+    HP.textContent=PAGES.toLocaleString();
+    HH.textContent=GUAR.toLocaleString();HG.textContent=CLIM.toLocaleString();
+  } else {
+    let i=0,run=null;
+    const step=()=>{
+      if(i<N){
+        cellsH[i].className=cellsH[i].dataset.base+" read "+cls(i);
+        i++;
+        const f=i/N;
+        HP.textContent=Math.round(PAGES*f).toLocaleString();
+        HH.textContent=Math.round(GUAR*f).toLocaleString();
+        HG.textContent=Math.round(CLIM*f).toLocaleString();
+      } else {
+        clearInterval(run);
+        setTimeout(()=>{
+          cellsH.forEach(c=>c.className=c.dataset.base);
+          i=0;run=setInterval(step,250);
+        },4000);
+      }
+    };
+    run=setInterval(step,250);
+  }
+}
+
+/* ─── verification workflow diagram ─── */
+const NODES=[
+ {n:1,t:["Find the","passages"],tag:"AI",kind:"ai",x:100,y:200,pos:"top"},
+ {n:2,t:["A person","checks"],tag:"Human",kind:"human",x:306,y:320,pos:"bot"},
+ {n:3,t:["A checked","evidence base"],tag:"Output",kind:"out",x:512,y:200,pos:"top"},
+ {n:4,t:["Answer","the rest"],tag:"AI",kind:"ai",x:718,y:320,pos:"bot"},
+ {n:5,t:["A person","checks again"],tag:"Human",kind:"human",x:924,y:200,pos:"top"}
+];
+const NS="http://www.w3.org/2000/svg";
+const svgEl=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const wf=document.getElementById("wf");
+const roadD="M"+NODES.map(n=>`${n.x} ${n.y}`).join(" L ");
+wf.appendChild(svgEl("path",{d:roadD,class:"road"}));
+wf.appendChild(svgEl("path",{d:roadD,class:"roadc"}));
+for(let i=0;i<NODES.length-1;i++){
+  const a=NODES[i],b=NODES[i+1];
+  const mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+  wf.appendChild(svgEl("path",{class:"fwd",
+    d:`M${mx-4} ${my-34} h18 v-5 l11 8 l-11 8 v-5 h-18 z`}));
+  wf.appendChild(svgEl("path",{class:"bck",
+    d:`M${mx+4} ${my+34} h-18 v-5 l-11 8 l11 8 v-5 h18 z`}));
+}
+NODES.forEach((n,i)=>{
+  const g=svgEl("g",{class:"nd"+(i===0?" on":""),"data-s":i,tabindex:"0",role:"button",
+    "aria-label":n.t.join(" ")+", "+n.tag});
+  g.appendChild(svgEl("circle",{cx:n.x,cy:n.y,r:52,class:"halo"}));
+  g.appendChild(svgEl("circle",{cx:n.x,cy:n.y,r:41,class:"ring"}));
+  g.appendChild(svgEl("circle",{cx:n.x,cy:n.y,r:35,class:"dash"}));
+  g.appendChild(svgEl("circle",{cx:n.x,cy:n.y,r:29,class:"core "+n.kind}));
+  const lc=n.kind==="human"?"lt":"dk";
+  g.appendChild(svgEl("path",{class:"loop "+lc,d:`M${n.x+15} ${n.y+1} a15 15 0 1 1 -7 -12.9`}));
+  g.appendChild(svgEl("path",{class:"loop "+lc,d:`M${n.x+1.5} ${n.y-18} l6.6 6.1 l-7.6 3.4`}));
+  g.appendChild(svgEl("circle",{cx:n.x,cy:n.y-41,r:13,class:"badge"}));
+  const bn=svgEl("text",{x:n.x,y:n.y-36,class:"bnum"});bn.textContent=n.n;g.appendChild(bn);
+  const top=n.pos==="top";
+  const y1=top?n.y-104:n.y+82, py=top?n.y-62:n.y+124;
+  n.t.forEach((line,k)=>{
+    const tx=svgEl("text",{x:n.x,y:y1+k*22,class:"ttl"});tx.textContent=line;g.appendChild(tx);
+  });
+  const w=n.tag.length*8.4+26;
+  g.appendChild(svgEl("rect",{x:n.x-w/2,y:py-16,width:w,height:24,rx:12,
+    class:"pill"+(n.kind==="human"?" hm":"")}));
+  const pt=svgEl("text",{x:n.x,y:py+1,class:"ptx"+(n.kind==="human"?" hm":"")});
+  pt.textContent=n.tag;g.appendChild(pt);
+  wf.appendChild(g);
+});
+const nodes=[...wf.querySelectorAll(".nd")];
+const CAPS=[
+ "Candidate passages are retrieved for every question, across every page, including scans and non-English filings.",
+ "An evaluator reviews the retrieved passages and removes what does not belong. This is where the workflow gets sent back.",
+ "Every page assessed, the relevant passages confirmed by a person, and the gaps recorded as gaps rather than filled in.",
+ "The remaining questions are answered from that evidence base. Every statement resolves to a document, section and page.",
+ "A named evaluator confirms or overrides. The decision goes to the audit trail with the passages that support it."
+];
+const wfcap=document.getElementById("wfcap"), wfsteps=document.getElementById("wfsteps");
+NODES.forEach((n,i)=>{
+  const li=document.createElement("li");
+  li.className=(i===0?"on ":"")+(n.kind==="human"?"hum":"");
+  li.dataset.s=i;
+  li.innerHTML=`<b>${n.n}</b><span class="wt">${n.t.join(" ")}<span class="wk">${n.tag}</span></span>`;
+  wfsteps.appendChild(li);
+});
+const steps=[...wfsteps.children];
+let cur=0,t0=0,raf=null,paused=false;
+const DWELL=5200;
+function paint(i){
+  nodes.forEach((s,j)=>s.classList.toggle("on",j===i));
+  steps.forEach((s,j)=>s.classList.toggle("on",j===i));
+  wfcap.textContent=CAPS[i];
+}
+function tick(ts){
+  if(!t0)t0=ts;
+  if(ts-t0>=DWELL){cur=(cur+1)%NODES.length;t0=ts;paint(cur);}
+  raf=requestAnimationFrame(tick);
+}
+[...nodes,...steps].forEach(el=>{
+  const go=()=>{cur=+el.dataset.s;t0=performance.now();paint(cur);};
+  el.addEventListener("click",go);
+  el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});
+});
+const pipe=document.getElementById("pipe");
+pipe.addEventListener("pointerenter",()=>{if(raf){cancelAnimationFrame(raf);raf=null;paused=true;}});
+pipe.addEventListener("pointerleave",()=>{if(paused&&!reduced){t0=0;raf=requestAnimationFrame(tick);paused=false;}});
+paint(0);
+if(!reduced) raf=requestAnimationFrame(tick);
+
+/* ─── intake stream ─── */
+const ARTS=[
+ {k:"rows"},{k:"bars"},{k:"tbl",lg:"ES"},{k:"scanart",lg:"FR"},{k:"line"},{k:"rows",lg:"PT"},
+ {k:"tbl"},{k:"bars"},{k:"scanart"},{k:"map"},{k:"rows",lg:"ES"},{k:"line"}
+];
+function makeArt(d){
+  const a=document.createElement("div");
+  a.className="art"+(d.k==="scanart"?" scanart":"");
+  a.dataset.kind=d.k;
+  if(d.lg){const s=document.createElement("span");s.className="lg";s.textContent=d.lg;a.appendChild(s);}
+  if(d.k==="bars"){
+    const w=document.createElement("div");w.className="bars";
+    [55,80,40,95,68,30].forEach(h=>{const i=document.createElement("i");i.style.height=h+"%";w.appendChild(i);});
+    a.appendChild(w);
+  } else if(d.k==="tbl"){
+    const w=document.createElement("div");w.className="tbl";
+    for(let k=0;k<16;k++) w.appendChild(document.createElement("i"));
+    a.appendChild(w);
+  } else if(d.k==="line"){
+    a.insertAdjacentHTML("beforeend",`<svg viewBox="0 0 100 52" width="100%" height="100%" fill="none"
+      stroke="#7FA592" stroke-width="2.4"><polyline points="2,44 18,30 34,36 50,16 66,22 82,8 98,12"/></svg>`);
+  } else if(d.k==="map"){
+    a.insertAdjacentHTML("beforeend",`<svg viewBox="0 0 100 52" width="100%" height="100%" fill="none"
+      stroke="#B7C4BC" stroke-width="1.6"><path d="M10 34c8-14 20-6 28-16s24-6 30 4-6 22-20 22-30 2-38-10z"/>
+      <circle cx="34" cy="26" r="2.4" fill="#7FA592" stroke="none"/>
+      <circle cx="56" cy="32" r="2.4" fill="#7FA592" stroke="none"/>
+      <circle cx="70" cy="20" r="2.4" fill="#B98442" stroke="none"/></svg>`);
+  } else {
+    const w=document.createElement("div");w.className="rows";
+    [100,72,90,58,84].forEach(x=>{const i=document.createElement("i");i.style.width=x+"%";w.appendChild(i);});
+    a.appendChild(w);
+  }
+  return a;
+}
+const stream=document.getElementById("stream");
+[...ARTS,...ARTS].forEach(d=>stream.appendChild(makeArt(d)));
+const arts=[...stream.children];
+function highlight(kinds){arts.forEach(a=>a.classList.toggle("act",kinds.includes(a.dataset.kind)));}
+
+/* ─── topics ─── */
+const Q=[
+{q:"Are the indicators measurable, and was the promised evidence actually collected?",
+ kinds:["tbl","rows"],self:"Substantial",ev:"Divergence flagged",
+ note:"On the office's own M&E quality criteria, indicator measurability and endline collection both fall short of what the frameworks committed to.",
+ f:[
+  {k:"flagged",tag:"41 of 61 operations · no baseline",
+   t:"Outcome indicators were defined at appraisal without a baseline value, which makes the reported change unverifiable regardless of the endline figure.",
+   c:["Results frameworks · 41 operations","Appraisal §III · pp.18–24"]},
+  {k:"flagged",tag:"Data source unspecified in 26 of 61",
+   t:"Outcome indicators name no data source, survey instrument or monitoring record. In nine operations these are the indicators the completion report leads with.",
+   c:["Results framework · Annex 1","Completion report §4.1 · p.35"]},
+  {k:"flagged",tag:"Endline collected in 19 of 44 that committed to one",
+   t:"Forty-four operations committed to an endline survey. Nineteen carried it out. The rest report endline values drawn from administrative counts instead.",
+   c:["Endline surveys · 19 datasets","Rapport de mission 7 · p.88 (FR)"]},
+  {k:"ok",tag:"M&E budget lines present in 58 of 61",
+   t:"Nearly every operation carried a dedicated M&E budget line and disbursement against it is traceable in the audits, so the shortfall is one of design rather than resourcing.",
+   c:["Audits · 58 operations","Appraisal §VII · p.41"]}
+ ]},
+{q:"Were the results-framework targets met, and on what evidence?",
+ kinds:["rows","tbl","scanart"],self:"Effective",ev:"Divergence flagged",
+ note:"One of three outcome indicators has no endline evidence, and the strongest reported result rests on a source the results framework did not specify.",
+ f:[
+  {k:"flagged",tag:"Target 1 · partially met",
+   t:"A 31% reduction in average rural travel time is reported against a 35% target. The figure comes from a 2023 traffic count, not the endline household survey the framework specified.",
+   c:["Completion report §4.2 · p.37","Results framework · Annex 1"]},
+  {k:"ok",tag:"Target 2 · met and corroborated",
+   t:"Average daily traffic exceeds target, and the figure is independently reproduced in the audit's revenue reconciliation.",
+   c:["Completion report §4.3 · p.41","Audit · p.12"]},
+  {k:"flagged",tag:"Target 3 · no endline value",
+   t:"Female employment in maintenance contracts appears only as a mid-term estimate. No endline value exists anywhere in the corpus, including the scanned annexes.",
+   c:["Completion report §4.4 · p.44","Annexe 7 · p.112 (FR, OCR)"]},
+  {k:"flagged",tag:"Attribution not addressed",
+   t:"The mid-term review records a parallel provincial programme on two of five corridors. The completion report does not mention it when attributing the travel-time result.",
+   c:["Mid-term review · p.19","Mission report 5 · p.61"]}
+ ]},
+{q:"Which outcome payment triggers are independently verifiable from the record?",
+ kinds:["tbl","bars","line"],self:"5 of 5 triggers met",ev:"3 of 5 verifiable",
+ note:"Two triggers cannot be verified from the record as it stands. Neither is necessarily wrong. But neither can be evidenced without going back to the provider.",
+ f:[
+  {k:"flagged",tag:"Metric definition changed after signature",
+   t:"The outcome metric in the verification report is defined over a 12-month window. The contract schedule defines it over 9 months. The change is documented nowhere in between.",
+   c:["Outcome contract · Sch. 2 · p.9","Verification report · p.4"]},
+  {k:"flagged",tag:"Two triggers rest on provider self-report",
+   t:"Triggers 2 and 4 are evidenced solely by the provider's own management information system, with no independent administrative or survey corroboration in the record.",
+   c:["Provider MIS extract · Q3","Verification report · p.11"]},
+  {k:"ok",tag:"Three triggers independently corroborated",
+   t:"Triggers 1, 3 and 5 are each reproducible from an administrative dataset held outside the provider, and the figures reconcile to within rounding.",
+   c:["Administrative extract · 2024","Audit · p.16"]},
+  {k:"ok",tag:"Baseline is documented and dated",
+   t:"The baseline study predates contract signature and states its sampling frame, which is what makes the three verifiable triggers verifiable.",
+   c:["Baseline study · §2 · p.7"]}
+ ]},
+{q:"Does the recalculated economic return support the efficiency rating?",
+ kinds:["bars","line","scanart"],self:"Efficient",ev:"Divergence flagged",
+ note:"The rating may well stand, but not on the calculation as presented. The recalculation should be re-run on realised traffic before it is confirmed.",
+ f:[
+  {k:"ok",tag:"Return above hurdle",
+   t:"The economic internal rate of return is recalculated at 14.2% against 16.8% at appraisal, clearing the 12% threshold.",
+   c:["Completion report §4.5 · p.48","Appraisal §V · p.29"]},
+  {k:"flagged",tag:"Assumption inconsistency",
+   t:"The recalculation carries forward appraisal traffic-growth assumptions. The realised counts in the scanned annex are materially lower in three of five years and go unused.",
+   c:["Annexe 7 · p.112 (FR, OCR)","Completion report §4.5 · p.49"]},
+  {k:"flagged",tag:"Overrun understated in the narrative",
+   t:"A 22-month delay and 8.4% cost overrun appear in the audit but are described only as procurement slippage, with no effect traced to the return.",
+   c:["Audit · p.7","Completion report §3.1 · p.24"]},
+  {k:"ok",tag:"Peer comparison across 14 operations",
+   t:"Comparable operations in the sector corpus recalculate between 9.1% and 13.4%, placing this one at the top of its peer group.",
+   c:["Sector corpus · 14 evaluations"]}
+ ]},
+{q:"Which lessons recur across the sector portfolio?",
+ kinds:["rows","map","tbl"],self:"n/a",ev:"4 recurring patterns",
+ note:"Synthesis rather than validation, so there is nothing to adjudicate. What it produces is a shortlist of design risks the institution has already documented and can act on at appraisal.",
+ f:[
+  {k:"flagged",tag:"Recurs in 34 of 61",
+   t:"Land acquisition and resettlement sequencing is the primary delay driver across the sector portfolio since 2018.",
+   c:["Sector corpus · 34 reports","Completion report §3.2 · p.26"]},
+  {k:"flagged",tag:"Recurs in 41 of 61",
+   t:"Outcome indicators defined with no baseline value at appraisal. This is the single most frequent finding in the corpus.",
+   c:["Sector corpus · 41 reports","Results framework · Annex 1"]},
+  {k:"flagged",tag:"Recurs in 27 of 61",
+   t:"Counterpart funding shortfalls in years two and three, with near-identical mitigation language proposed each time.",
+   c:["Sector corpus · 27 reports"]},
+  {k:"ok",tag:"Recorded, never carried forward",
+   t:"The same lesson text appears in nine completion reports over seven years, in three languages. No subsequent appraisal in the same country cites it.",
+   c:["Sector corpus · 9 reports","Informe de finalización · p.31 (ES)"]}
+ ]}
+];
+
+const TOTAL=24812;
+const qline=document.getElementById("qline"),mtext=document.getElementById("mtext"),
+      mfill=document.getElementById("mfill"),res=document.getElementById("results"),
+      vd=document.getElementById("verdict"),tps=[...document.querySelectorAll(".tp")];
+let mt=null;
+
+function showFindings(q){
+  res.innerHTML="";
+  q.f.forEach((f,i)=>{
+    const d=document.createElement("div");
+    d.className=`finding ${f.k}`;d.style.opacity=reduced?1:0;
+    d.innerHTML=`<span class="tag">${f.tag}</span><p>${f.t}</p>
+      <div class="cites">${f.c.map(c=>{
+        const tr=/\((FR|ES|PT)[,)]|\(FR|\(ES|\(PT/.test(c)||/ \((FR|ES|PT), /.test(c);
+        return `<span class="cite${tr?" tr":""}">${c}</span>`;}).join("")}</div>`;
+    res.appendChild(d);
+    if(!reduced)setTimeout(()=>{d.style.transition="opacity .3s ease";d.style.opacity=1;},i*170);
+  });
+}
+function showVerdict(q){
+  const diff=!q.ev.includes("recurring");
+  vd.classList.remove("hide");
+  vd.innerHTML=`<div class="vrow">
+      <div class="vcol"><span>Self-assessed</span><b>${q.self}</b></div>
+      <div class="vcol ${diff?"diff":""}"><span>Evidence position</span><b>${q.ev}</b></div>
+      <div class="vcol"><span>Independent rating</span><b>Evaluator decides</b></div>
+    </div><p>${q.note}</p><div class="vacts">${diff?
+      `<button class="vbtn" data-a="c">Confirm self-assessment</button>
+       <button class="vbtn" data-a="o">Override with reason</button>
+       <span class="vnote" id="vnote">Nothing is recorded until a person decides.</span>`:
+      `<span class="vnote">Synthesis output. Nothing to adjudicate.</span>`}</div>`;
+  vd.querySelectorAll(".vbtn").forEach(b=>b.addEventListener("click",()=>{
+    vd.querySelectorAll(".vbtn").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+    document.getElementById("vnote").textContent = b.dataset.a==="c"
+      ? "Recorded: self-assessment confirmed, with the flagged evidence attached to the decision."
+      : "Recorded: override entered. The reason and supporting passages are written to the audit trail.";
+  }));
+}
+function ask(i){
+  const q=Q[i];clearInterval(mt);
+  qline.textContent=q.q;
+  vd.classList.add("hide");res.innerHTML="";
+  highlight(q.kinds);
+  if(reduced){mfill.style.width="100%";
+    mtext.textContent=`${TOTAL.toLocaleString()} pages · ${q.f.length} findings`;
+    showFindings(q);showVerdict(q);return;}
+  let p=0;const step=Math.ceil(TOTAL/42);mfill.style.width="0%";
+  mt=setInterval(()=>{
+    p=Math.min(TOTAL,p+step);
+    mtext.textContent=`reading ${p.toLocaleString()} / ${TOTAL.toLocaleString()} pages`;
+    mfill.style.width=(p/TOTAL*100)+"%";
+    if(p>=TOTAL){clearInterval(mt);
+      mtext.textContent=`${TOTAL.toLocaleString()} pages · 4 languages · ${q.f.length} findings · all sourced`;
+      showFindings(q);setTimeout(()=>showVerdict(q),q.f.length*170+200);}
+  },30);
+}
+tps.forEach(b=>b.addEventListener("click",()=>{
+  tps.forEach(x=>x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");ask(+b.dataset.q);
+}));
+
+
+/* ─── contact form ─── */
+/* Paste a Formspree (or Tally / Web3Forms) endpoint below to collect enquiries.
+   Until you do, the form opens a pre-filled email to munibz@destillo.io instead. */
+const FORM_ENDPOINT = "PASTE_ENDPOINT_HERE";
+const cform=document.getElementById("cform"), cstat=document.getElementById("cstat");
+if(cform){
+  cform.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const f=new FormData(cform);
+    const name=(f.get("name")||"").trim(), email=(f.get("email")||"").trim();
+    if(!name||!email){ cstat.className="cstat err"; cstat.textContent="Name and work email are required."; return; }
+    const inst=(f.get("institution")||"").trim(), msg=(f.get("message")||"").trim();
+
+    if(FORM_ENDPOINT.indexOf("http")!==0){
+      const body=`Name: ${name}%0D%0AEmail: ${email}%0D%0AInstitution: ${inst}%0D%0A%0D%0A${msg}`;
+      window.location.href="mailto:munibz@destillo.io?subject=Destillo%20pilot%20enquiry&body="+body;
+      cstat.className="cstat ok"; cstat.textContent="Opening your email client.";
+      return;
+    }
+    cstat.className="cstat"; cstat.textContent="Sending.";
+    try{
+      const r=await fetch(FORM_ENDPOINT,{method:"POST",body:f,headers:{Accept:"application/json"}});
+      if(!r.ok) throw new Error(r.status);
+      cform.reset();
+      cstat.className="cstat ok"; cstat.textContent="Thank you. We will be in touch.";
+    }catch(err){
+      cstat.className="cstat err";
+      cstat.innerHTML='Something went wrong. Email <a href="mailto:munibz@destillo.io">munibz@destillo.io</a> instead.';
+    }
+  });
+}
+</script>
+</body>
+</html>
