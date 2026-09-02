@@ -327,6 +327,7 @@ section{padding:clamp(46px,5.6vw,80px) 0;border-top:1px solid var(--rule)}
 .gcell h3{font-family:var(--sans);font-size:.97rem;font-weight:600;letter-spacing:0;margin-bottom:7px}
 .gcell p{font-size:.88rem;color:var(--ink-2);margin:0}
 .cta h2{max-width:18ch;margin-bottom:14px}
+#contact{scroll-margin-top:84px}
 .cform{margin-top:26px;max-width:640px}
 .crow{display:flex;gap:16px;flex-wrap:wrap}
 .crow label{flex:1 1 240px}
@@ -341,6 +342,7 @@ section{padding:clamp(46px,5.6vw,80px) 0;border-top:1px solid var(--rule)}
 .cstat{font-size:.87rem;color:var(--ink-2)}
 .cstat.ok{color:var(--seal)}
 .cstat.err{color:var(--flag)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
 footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
 .fgrid{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:34px}
@@ -373,7 +375,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
       <a href="#example">Worked example</a>
       <a href="#studies">Case studies</a>
       <a href="#benchmark">Accuracy</a>
-      <a class="btn" href="mailto:munibz@destillo.io?subject=Destillo%20pilot%20enquiry">Get in touch</a>
+      <a class="btn" href="#contact">Get in touch</a>
     </nav>
   </div>
 </header>
@@ -418,11 +420,13 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
 <!-- ══ APPLICATIONS ══ -->
 <section id="benchmark">
   <div class="wrap">
-    <div class="shead" style="margin-bottom:26px"><h2>Accuracy is the whole argument</h2></div>
+    <div class="shead" style="margin-bottom:26px"><h2>Accuracy</h2>
+      <p class="lede">We tested our pipeline against MAI, the World Bank Group's internal RAG
+        system, on the same project appraisal document.</p></div>
 
     <div class="cmp">
       <div class="cmprow">
-        <div class="cmplab">MAI<em>World Bank Group internal AI RAG system</em></div>
+        <div class="cmplab">MAI<em>World Bank Group internal RAG system</em></div>
         <div class="cmpbar">
           <span class="found" style="width:27.3%">9 found</span>
           <span class="missed" style="width:72.7%">24 missed</span>
@@ -443,9 +447,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
       </div>
     </div>
 
-    <p class="small" style="margin-top:16px;max-width:86ch">Measured against MAI, the World Bank
-      Group's internal AI RAG system, on the same project appraisal document. 33 verified resilient
-      infrastructure activities in the document.</p>
+    <p class="small" style="margin-top:16px;max-width:86ch">33 verified resilient infrastructure activities in the document.</p>
   </div>
 </section>
 
@@ -515,7 +517,6 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
           Revisit earlier decisions</span>
       </div>
       <p class="wfcap" id="wfcap"></p>
-      </div>
     </div>
 
     <div class="prod">
@@ -679,7 +680,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
 <!-- ══ HANDLING ══ -->
 <section id="handling">
   <div class="wrap">
-    <div class="shead"><h2>Independence and data handling</h2>
+    <div class="shead"><h2>Privacy and data handling</h2>
       <p class="lede">The questions an AI governance review will ask, answered before the first meeting.</p></div>
     <div class="gov">
       <div class="gcell"><h3>GDPR compliant</h3><p>Personal data is handled under GDPR, with processing agreements and data subject rights set in the engagement terms.</p></div>
@@ -708,6 +709,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
         <label>Institution<input name="institution" type="text" autocomplete="organization"></label>
       </div>
       <label class="cfull">What would you like to run it on?<textarea name="message" rows="3"></textarea></label>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
       <div class="cact">
         <button class="btn lg" type="submit">Get in touch</button>
         <span class="cstat" id="cstat"></span>
@@ -739,7 +741,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
         <ul>
           <li><a href="#studies">Case studies</a></li>
           <li><a href="mailto:munibz@destillo.io?subject=Careers%20at%20Destillo">Careers</a></li>
-          <li><a href="mailto:munibz@destillo.io">Contact</a></li>
+          <li><a href="#contact">Contact</a></li>
           <li><a href="https://www.linkedin.com/company/destilloai">LinkedIn</a></li>
         </ul>
       </div>
@@ -1098,8 +1100,9 @@ tps.forEach(b=>b.addEventListener("click",()=>{
 
 
 /* ─── contact form ─── */
-/* Paste a Formspree (or Tally / Web3Forms) endpoint below to collect enquiries.
-   Until you do, the form opens a pre-filled email to munibz@destillo.io instead. */
+/* Enquiries post to Formspree, which emails munibz@destillo.io and keeps a copy
+   in the dashboard. If the endpoint is ever cleared, the form falls back to
+   opening a pre-filled email instead. */
 const FORM_ENDPOINT = "https://formspree.io/f/mdeozdod";
 const cform=document.getElementById("cform"), cstat=document.getElementById("cstat");
 if(cform){
