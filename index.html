@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Destillo. Evidence for development finance</title>
-<meta name="description" content="Evidence for development finance. Destillo pulls evidence out of messy PDFs, spreadsheets and scanned archives across a large source base, for evaluation, results and outcomes teams at MDBs and DFIs.">
+<meta name="description" content="Development finance runs on evidence, and most of it sits buried in thousands of PDFs, spreadsheets and old reports. Destillo designs the method, builds the pipeline and delivers structured, benchmarked findings across your whole portfolio.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -260,20 +260,15 @@ section{padding:clamp(46px,5.6vw,80px) 0;border-top:1px solid var(--rule)}
 @media(max-width:820px){.flow{grid-template-columns:1fr}}
 .intake{border-right:1px solid var(--rule);background:var(--card-2);position:relative;
   overflow:hidden;min-height:340px}
-@media(max-width:820px){.intake{height:150px;min-height:0;border-right:0;
-  border-bottom:1px solid var(--rule)}}
+@media(max-width:820px){.intake{height:152px;border-right:0;border-bottom:1px solid var(--rule)}}
 .intake::before,.intake::after{content:"";position:absolute;left:0;right:0;height:72px;z-index:3;pointer-events:none}
 .intake::before{top:0;background:linear-gradient(var(--card-2),rgba(250,251,248,0))}
 .intake::after{bottom:0;background:linear-gradient(rgba(250,251,248,0),var(--card-2))}
-@media(max-width:820px){
-  .intake::before,.intake::after{top:0;bottom:0;left:auto;right:auto;height:auto;width:48px}
-  .intake::before{left:0;background:linear-gradient(90deg,var(--card-2),rgba(250,251,248,0))}
-  .intake::after{right:0;background:linear-gradient(90deg,rgba(250,251,248,0),var(--card-2))}}
 .ilabel{position:absolute;top:0;left:0;right:0;z-index:4;padding:11px 16px;font-size:.75rem;
   color:var(--ink-3);border-bottom:1px solid var(--rule-2);background:var(--card-2)}
 @keyframes flowup{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 @keyframes flowleft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.streamrail{display:flex;flex-direction:column;gap:11px;padding:44px 16px 0;animation:flowup 32s linear infinite}
+.streamrail{position:absolute;inset:0;display:flex;flex-direction:column;gap:11px;padding:44px 16px 0;animation:flowup 32s linear infinite}
 @media(max-width:820px){.streamrail{flex-direction:row;padding:38px 16px 0;animation-name:flowleft;animation-duration:34s}}
 .art{flex:0 0 auto;width:100%;background:#FDFDFB;border:1px solid var(--rule);
   padding:8px;height:74px;position:relative;overflow:hidden;transition:border-color .4s,box-shadow .4s}
@@ -626,7 +621,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
 
       <article class="study">
         <div class="top"><span class="org">World Bank Group · IEG</span><span class="kind">Evaluation</span></div>
-        <h3>Guarantee instrument evaluation</h3>
+        <h3>World Bank Group Guarantees</h3>
         <p>An evaluation of the guarantee portfolio required consistent extraction from a document
           set spanning instruments, regions and two decades of changing templates. Twenty-seven
           distinct questions were applied across all 25,000 pages, with no sampling.</p>
@@ -644,7 +639,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
 
       <article class="study">
         <div class="top"><span class="org">Asian Development Bank</span><span class="kind">Classification</span></div>
-        <h3>Finding digital projects</h3>
+        <h3>Finding Digital Projects</h3>
         <p>Digital work is rarely labelled as such. It sits inside transport, health and public
           sector operations as a component, so the portfolio cannot be identified from project titles
           or sector codes alone.</p>
@@ -676,7 +671,7 @@ footer{border-top:1px solid var(--rule);padding:clamp(40px,5vw,64px) 0 40px}
 
       <article class="study wide">
         <div class="top"><span class="org">World Bank Group · GFDRR</span><span class="kind">Compliance · Multilingual</span></div>
-        <h3>Building compliance assessed against a structural checklist</h3>
+        <h3>Automated Building Code Compliance Review</h3>
         <p>Building documentation had to be assessed against a structural safety and compliance
           checklist, across a document set filed in several languages. More than fifty structural
           questions were built into the pipeline, each returning an assessment traceable to the
